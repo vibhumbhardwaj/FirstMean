@@ -1,17 +1,18 @@
-var mongomodel = require('./mongodb.js');
+var mongomodel = require('./mongomodel.js');
 
 var newBook = new mongomodel.Book({
     book: 'killing floor',
     author: 'Lee Child',
-    who_has_this: null
+    who_has_this: null,
+
 });
 
-/* C
+//C for Create
 newBook.save(function(err){
     if(err) console.error('shit happens. this time happened while saving the book you gave me save into the database.');
     console.log('o ya.');
 });
-*/
+
 
 
 
@@ -27,7 +28,7 @@ var getBooks = function () {
        // })
     });
 }
-getBooks();
+//getBooks();
 
 
 /* Apparently, you cannot set the data which is not present in the schema So this saves nothing but _id and _v

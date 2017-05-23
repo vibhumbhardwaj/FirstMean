@@ -14,7 +14,10 @@
     "express-generator" : "~4.15.0",
     "body-parser" : "~1.17.2",
     "cookie-parser" : "~1.4.3",
-    "express-session" : "~1.15.3"
-
+    "express-session" : "~1.15.3",
+    "mongoose" : "latest",
+    "jsonwebtoken": "7.4.1",
+    "morgan": "1.8.1"
   }
+
 }
