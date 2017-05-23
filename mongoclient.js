@@ -6,17 +6,25 @@ var newBook = new mongomodel.Book({
     who_has_this: null
 });
 
-/*
+/* C
 newBook.save(function(err){
     if(err) console.error('shit happens. this time happened while saving the book you gave me save into the database.');
     console.log('o ya.');
 });
 */
 
+
+
+
+// RU D (you know how to delete. don't act like you don't)
 var getBooks = function () {
-    mongomodel.Book.find({ _id : '5923e920d266fb2134746867' }, function (err, data) {
+    mongomodel.Book.findOneAndUpdate({ _id : '5923e920d266fb2134746867' },{book:'Doh'}, function (err, data) { // Only find for reading, then you can do .save or .remove the old fashioned way also..
         if (err) console.error("Shit happens. this time while retrieving current books from database.");
-        console.log('Books:\n' + data[0].book);
+        console.log('Books:\n' + data);
+        //data[0].author = 'DANGIT';
+        //data[0].save(function(err){
+         //   if(err)console.log('shit.');
+       // })
     });
 }
 getBooks();
