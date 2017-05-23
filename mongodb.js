@@ -16,7 +16,9 @@ var schemaForUsers = new Schema({
     name: String,
     username: String,
     password: String,
-    books_he_has: [],
+    books_he_has: [String],
+    books_he_likes: [String],
+    books_he_dislikes: [String]
 });
 
 var schemaForBooks = new Schema({
@@ -24,8 +26,8 @@ var schemaForBooks = new Schema({
     author: String,
     who_has_this: String,
     points: Number,
-    upvoded_by_users: [],
-    downvoted_by_users: []
+    upvoded_by_users: [String],
+    downvoted_by_users: [String]
 });
 
 var Book = mongoose.model('Book', schemaForBooks);
