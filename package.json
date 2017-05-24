@@ -17,7 +17,8 @@
     "express-session" : "~1.15.3",
     "mongoose" : "latest",
     "jsonwebtoken": "7.4.1",
-    "morgan": "1.8.1"
+    "morgan": "1.8.1",
+    "angular: "latest"
   }
 
 }
