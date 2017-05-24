@@ -1,1 +1,29 @@
-hellothere
+<html>
+<head>
+    <title>Books</title>
+    <style>
+    #bookscontainer li{
+        float : "left";
+    }
+    </style>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/booksApp.js"></script>
+    <script src="scripts/booksController.js"></script>  
+</head>
+
+<body ng-app="booksApp" ng-controller="booksController">
+<div id="bookscontainer">
+<!--
+{{bookstodisplay}}
+<br>
+{{bookstodisplay.data[0].book}}
+-->
+<ul>
+    <li ng-repeat="book in bookstodisplay.data">
+        Name of the book bro: {{book.book}}
+        <br>
+    </li>
+</ul>
+</div>
+
+</body>
