@@ -5,9 +5,12 @@ var morgan = require('morgan');
 var jwt = require('jsonwebtoken');
 
 
-express.static('./static'); 
+app.use(express.static('./static')); 
 var router = require('./router.js');
+var apiRouter = require('./apiRouter.js');
 router(app);
+apiRouter(express,app);
+
 app.set('views', __dirname + '/web');
 app.set('view engine', 'ejs');
 app.engine('html',require('ejs').renderFile);
