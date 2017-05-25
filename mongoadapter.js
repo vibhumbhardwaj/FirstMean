@@ -3,15 +3,20 @@ var model = require('./mongomodel.js');
 var newBook;
 var newUser;
 
-var getbooks = function(findthis, limit, cb){
+var getbooks = function(findthis, limit, bc){
     model.Book.find(findthis).limit(limit).exec(function(err,books){
-        if(err) console.log(err);
-        console.log(books + 'o yes. we did it.. now we will throw it away.');
-        cb(books);
+       // if(err) console.log(err);
+        bc(err, books);
     })
-    
+}
+
+var getbookdetail = function(findthisid, bc){
+    model.book.findbyid(findthisid, function(err,thebook){
+        bc(err, thebook);
+    })
 }
 
 module.exports = {
-    getBooks: getbooks
+    getBooks: getbooks,
+    getBookById: getbookdetail
 }

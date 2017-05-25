@@ -2,7 +2,7 @@
 <head>
     <title>Books</title>
     <style>
-    #bookscontainer{
+    #bookcontainer{
         width: 1100px;
     }
     #bookscontainer li {
@@ -18,21 +18,16 @@
 </head>
 
 <body ng-app="booksApp" ng-controller="booksController">
-<div id="bookscontainer">
+<div id="bookcontainer">
 <!--
 {{bookstodisplay}}
 <br>
 {{bookstodisplay.data[0].book}}
 -->
-<ul>
-    <li ng-repeat="book in bookstodisplay">
-        {{book.book}}<br>
-        <a ng-href="">Go to the Book</a><br>
-        <span>{{book.points}}</span>
-        
-        <br>
-    </li>
-</ul>
+
+
+
+
 </div>
 
 </body>
