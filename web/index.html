@@ -2,22 +2,19 @@
 <head>
     <title>Books</title>
     <style>
-    #bookscontainer{
-        width: 1100px;
-    }
-    #bookscontainer li {
-        float: left;
-        width: 250px;
-        margin: 20px;
+    #bookscontainer li{
+        float : "left";
     }
     </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <script src="scripts/angular.min.js"></script>
-    <script src="scripts/booksApp.js"></script>
-    <script src="scripts/booksController.js"></script>  
+    <script src="/scripts/angular.min.js"></script>
+    <script src="/scripts/booksApp.js"></script>
+    <script src="/scripts/booksController.js"></script>  
 </head>
 
 <body ng-app="booksApp" ng-controller="booksController">
+    <span ng-if="error">What happened? Shit Happened. Bloody shit.</span>
+
+    <input type="text" ng-model="search" ng-blur="hitIt()">
 <div id="bookscontainer">
 <!--
 {{bookstodisplay}}
@@ -25,11 +22,8 @@
 {{bookstodisplay.data[0].book}}
 -->
 <ul>
-    <li ng-repeat="book in bookstodisplay">
-        {{book.book}}<br>
-        <a ng-href="">Go to the Book</a><br>
-        <span>{{book.points}}</span>
-        
+    <li ng-repeat="book in bookstodisplay.data">
+        Name of the book bro: {{book.book}}
         <br>
     </li>
 </ul>

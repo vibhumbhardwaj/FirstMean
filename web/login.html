@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>Books</title>
+    <style>
+    #bookscontainer li{
+        float : "left";
+    }
+    </style>
+    <script src="/scripts/angular.min.js"></script>
+    <script src="/scripts/booksApp.js"></script>
+    <script src="/scripts/loginController.js"></script>  
+</head>
+
+<body ng-app="booksApp" ng-controller="loginController">
+    <span ng-if="error">What happened? Shit Happened. Bloody shit.</span>
+
+    <input type="text" ng-model="username"><br>
+    <input type="password" ng-model="password" ng-blur="loginUser()">
+
+
+</body>
