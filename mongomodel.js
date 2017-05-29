@@ -1,10 +1,13 @@
 var mongoose = require('mongoose');
+var config = require('./config.js');
 
-mongoose.connect('mongodb://localhost/dbone/');
+mongoose.connect(config.connectionString);
 var db = mongoose.connection;
 
-db.addListener('error',function(){
-    console.error('shit happens');
+db.addListener('error',function(err){
+    console.error(err);
+    console.error('shit happened at Database Level');
+    //console.log(err);
 });
 
 db.addListener('open',function(){
