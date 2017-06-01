@@ -27,12 +27,15 @@ router.post('/authenticate', function(req,res){
     var password = req.body.password;
     if(username && password){
         adapter.getUser({username : username, password : password}, function(err, user){
-            if(err){
-                cosole.log('Authentication Error');
+            if(err || !user){
+                console.log('Authentication Error ' + err);
                 res.send({success: false, message: 'LOGIN ERROR'});
             }
             else{
-                var token = jwt.sign(user, config.secretKey, {expiresInMinutes: 1440});
+                console.log(user);
+                console.log('only data; ' + user.username);
+                var token = jwt.sign({username: user.username}, config.secretKey, {expiresIn: 1440*60});
+                console.log('I just gave someone a token');
                 res.json({success: true, token: token, message: 'Ash with cash.'});
             }
         });

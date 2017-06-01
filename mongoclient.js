@@ -7,13 +7,21 @@ var newBook = new mongomodel.Book({
 
 });
 
+var newUser = new mongomodel.User({
+    name: 'Vibhum',
+    username: 'a@a.com',
+    password: '123654',
+    admin: true
+})
+
 //C for Create
-newBook.save(function(err){
-    if(err) console.error('shit happens. this time happened while saving the book you gave me save into the database.');
+/*
+newUser.save(function(err){
+    if(err) console.error('shit happens. this time happened while saving the user you gave me save into the database.');
     console.log('o ya.');
-});
+});*/
 
-
+//mongomodel.User.findOne({username: 'a@a.com',})
 
 
 

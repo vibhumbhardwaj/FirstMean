@@ -17,11 +17,12 @@ var Schema = mongoose.Schema;
 
 var schemaForUsers = new Schema({
     name: String,
-    username: String,
+    username: {type: String, unique: true},
     password: String,
     books_he_has: [String],
     books_he_likes: [String],
-    books_he_dislikes: [String]
+    books_he_dislikes: [String],
+    admin: Boolean
 });
 
 var schemaForBooks = new Schema({
