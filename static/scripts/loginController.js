@@ -18,9 +18,10 @@ app.controller('loginController', function($rootScope, $scope){
             if(res.data.success){
                 console.log('Looks like I just got a token buddy!! Saving it now.');
                 window.localStorage.token = res.data.token;
+                window.localStorage.name = res.data.user.name;
                 $rootScope.http.defaults.headers.common.Authorization = window.localStorage.token;
+                //$rootScope.token = res.data.token;
                 console.log('saved token as ' + window.localStorage.token);
-                $rootScope.dummySendRequest();
             }
         }, function failure(err) {
             console.log('shit happened at API');
@@ -33,6 +34,7 @@ app.controller('loginController', function($rootScope, $scope){
         if(!window.localStorage.token)
             return true;
         console.log('user is logged in already dude... Have some chill.');
+        $scope.chill = true;
         return false;
     }
 

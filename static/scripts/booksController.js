@@ -12,12 +12,15 @@ app.controller('booksController', function ($rootScope, $scope) {
             datatype: 'json',
         }).then(function success(res) {
             $scope.bookstodisplay = res;
+            
         }, function failure(err) {
             console.log('shit happened at API');
             $scope.error = true;
         })
+        
     }
     $scope.hitIt();
+    //$rootScope.dummySendRequest();
 
-    $rootScope.dummySendRequest();
+    
 })
