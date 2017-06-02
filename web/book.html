@@ -12,18 +12,30 @@
     }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/angular.js"></script>
     <script src="scripts/booksApp.js"></script>
     <script src="scripts/booksController.js"></script>  
 </head>
 
-<body ng-app="booksApp" ng-controller="booksController">
+<body ng-app="booksApp" ng-controller="bookdetailController">
 <div id="bookcontainer">
 <!--
 {{bookstodisplay}}
 <br>
 {{bookstodisplay.data[0].book}}
 -->
+
+Name: {{book.name}}<br>
+Is this available? {{!book.issued}}<br>
+Total Points: {{book.upvots}}<br>
+
+These People like this: <br>
+<ul ng-repeat="user in book.usersLikingThis">
+    <li>{{user.name}}</li>
+</ul>
+
+
+
 
 
 
