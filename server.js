@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var session = require('express-session');
 
 app.set('views', __dirname + '/web');
 app.set('view engine', 'ejs');
@@ -9,7 +10,8 @@ app.engine('html',require('ejs').renderFile);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
+app.use(session({secret: "oye"}));
 
 app.use(express.static('./static')); 
 /*
@@ -29,5 +31,5 @@ app.use('/site/gateway/secure', apiRouterSecured);
 
 
 var server = app.listen(80,function(){
-    console.log('i\'m up');
+    console.log('[STARTUP] Web Server Up.');
 });
