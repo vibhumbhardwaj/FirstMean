@@ -6,7 +6,6 @@ var config = require('./config.js');
 var serviceHelper = require('./serviceHelper.js');
 
 var findthis = {};
-var session;
 var date = new Date();
 
 router.use(function(req,res,next){
@@ -25,14 +24,16 @@ router.get('/getBooks', function (req, res) {
     }
     adapter.getBooks(findthis, parseInt(req.query.v), function (err, books) {
         if (err){ console.log('[ERROR] shit happened at Service. books: ' + books); res.json({success: false}); return;}
-        books = serviceHelper.mapUserToBooks(books, req.session.user);
+        if (req.session.user){
+            console.log('[INFO] User logged in, so mixing user data to the book also..');
+            books = serviceHelper.mapUserToBooks(books, req.session.user);
+        }
         res.json(books);
     });
 });
 console.log('[STARTUP] Setting up APIs');
 
 router.post('/authenticate', function(req,res){
-    session = req.session;
     console.log(req.body);
     var username = req.body.username;
     var password = req.body.password;
@@ -47,7 +48,7 @@ router.post('/authenticate', function(req,res){
                // console.log('only data; ' + user.username);
                 var token = jwt.sign({user: user._id}, config.secretKey, {expiresIn: 1440*60});
                 console.log('[INFO] I just gave someone a token');
-                session.user = user;
+                req.session.user = user;
                 res.json({success: true, token: token, user: user, message: 'Ash with cash.'});
             }
         });

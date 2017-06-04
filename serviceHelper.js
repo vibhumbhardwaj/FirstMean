@@ -9,15 +9,19 @@ var mapUserToBooks = function(books, user){
 
 var mapUserToBook = function(book, user){
     if(book.who_has_this){
-        book.issued = true;
-        book.issuedTo = book.who_has_this.userName;
+        book._doc.issued = true;
+        book._doc.issuedTo = book.who_has_this.userName;
+        if(book.who_has_this.userId == user._id)
+            book._doc.issuedToCurrentUser = true;
     }
     else
-        book.issued = false;
-    
+        book._doc.issued = false;
     var upVoteStatus =  getUpVoteStatus(book, user);
+    console.log('[INFO] Got this upvoateStatus--> ' + upVoteStatus + ' <--for book-->' + book.book +' -- '+ book._id);
+    book._doc.upvoteStatus = upVoteStatus;
+    return book;
 }
-
+/*
 var user = {
     _id: 'vbid',
     name: 'Vibhum',
@@ -35,10 +39,19 @@ var book = {
     author: 'Dan brown',
     who_has_this: {},
     points: 5,
-    upvoded_by_users: [{userName: 'Vibhum', userId: 'vbid'}],
+    upvoted_by_users: [{userName: 'Vibhum', userId: 'vbid'}],
     downvoted_by_users: []
 }
 
+*/
+
+var getPointsAfterDownvote = function(book){
+    var points = book.points;
+    if(points>0){
+        points--;
+    }
+    return points;
+}
 
 
 var getUpVoteStatus = function(book, user){
@@ -52,4 +65,11 @@ var getUpVoteStatus = function(book, user){
         }
     });
     return returnval;
+}
+
+module.exports = {
+    getVotingCapability : getVotingCapability,
+    mapUserToBooks : mapUserToBooks,
+    mapUserToBook : mapUserToBook,
+    getUpVoteStatus : getUpVoteStatus
 }

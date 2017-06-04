@@ -29,7 +29,7 @@ var schemaForBooks = new Schema({
     author: String,
     who_has_this: Object,
     points: Number,
-    upvoded_by_users: [Object],
+    upvoted_by_users: [Object],
     downvoted_by_users: [Object]
 });
 

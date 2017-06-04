@@ -1,11 +1,11 @@
 var mongomodel = require('./mongomodel.js');
 
 var newBook = new mongomodel.Book({
-    book: 'killing floor',
+    book: 'Killing Floor',
     author: 'Lee Child',
     who_has_this: null,
-
 });
+
 
 var newUser = new mongomodel.User({
     name: 'Vibhum',
@@ -14,6 +14,27 @@ var newUser = new mongomodel.User({
     admin: true
 })
 
+var updateBook = {
+    book: 'Killing Floor',
+    author: 'Lee Child',
+    who_has_this: [{userId: '5933d1d310feaf4a38729553', userName: 'Vibhum'}],
+    _id: '5933d2d51d402d62d8a7b842'
+}
+/*
+mongomodel.Book.findByIdAndUpdate(updateBook._id, updateBook, function(err, book){
+    if (err) throw err;
+    //book = updateBook;
+    getBooks();
+
+})
+*/
+
+/*
+newBook.save(function(err){
+    if(err) console.error('shit happens. this time happened while saving the book you gave me save into the database.');
+    console.log('o ya.');
+});
+*/
 //C for Create
 /*
 newUser.save(function(err){
@@ -22,6 +43,14 @@ newUser.save(function(err){
 });*/
 
 //mongomodel.User.findOne({username: 'a@a.com',})
+
+
+var readBook = function(){
+    mongomodel.Book.find({book: 'Killing Floor'},function(err,books){
+        console.log(books[0].who_has_this);
+    })
+}
+readBook();
 
 
 
