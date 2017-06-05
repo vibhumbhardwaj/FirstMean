@@ -1,6 +1,11 @@
 # FirstMean
 The Very First Mean Project
 
+05-06:
+1. Dynamic link is **GREEN**, but no handling is there yet.
+<eom>
+
+
 04-06:
 
 Upvote is Green now! Yellow actually.
