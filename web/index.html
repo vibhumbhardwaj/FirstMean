@@ -2,8 +2,13 @@
 <head>
     <title>Books</title>
     <style>
-    #bookscontainer li{
-        float : "left";
+    #bookcontainer{
+        width: 1100px;
+    }
+    #bookscontainer li {
+        float: left;
+        width: 250px;
+        margin: 20px;
     }
     </style>
     <script src="/scripts/angular.js"></script>
@@ -24,9 +29,15 @@
 -->
 <ul>
     <li ng-repeat="book in bookstodisplay.data">
-        Name of the book bro: {{book.book}}
+        Name of the book bro: {{book.book}}<br>
+        Total Upvotes: {{book.points}}<br>
         
-        <br>
+        Issued ? {{book.issued}}
+        to current user ? {{book.issuedToCurrentUser}}
+        <a ng-click = 'createBookLink(book._id)'>Go to</a>
+
+        
+        
     </li>
 </ul>
 </div>

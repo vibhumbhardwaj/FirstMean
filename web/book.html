@@ -25,13 +25,13 @@
 {{bookstodisplay.data[0].book}}
 -->
 
-Name: {{book.name}}<br>
+Name: {{book.book}}<br>
 Is this available? {{!book.issued}}<br>
 Total Points: {{book.upvots}}<br>
 
 These People like this: <br>
 <ul ng-repeat="user in book.usersLikingThis">
-    <li>{{user.name}}</li>
+    <li>{{user.userName}}</li>
 </ul>
 
 
