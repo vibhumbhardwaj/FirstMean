@@ -4,6 +4,10 @@ app.controller('booksController', function ($rootScope, $scope) {
     $scope.numberofbooks = 10;
     $scope.search;
 
+    $scope.createBookLink = function(bookId){
+        window.open('books/'+ bookId);
+    }
+
     $scope.hitIt = function () {
         $scope.querysearch = ($scope.search) ? '&q='+ $scope.search : '';
         $rootScope.http({

@@ -1,7 +1,7 @@
 app.controller('loginController', function($rootScope, $scope){
     $scope.username = "";
     $scope.password = "";
-
+    
     $scope.loginUser = function(){
         if(!checkIfUserGood()) return;
         datatosend = {username: $scope.username, password: $scope.password};
@@ -23,6 +23,8 @@ app.controller('loginController', function($rootScope, $scope){
                 //$rootScope.token = res.data.token;
                 console.log('saved token as ' + window.localStorage.token);
             }
+            if(res.data.removeCacheRequired)
+                window.localStorage.clear();
         }, function failure(err) {
             console.log('shit happened at API');
             $scope.error = true;
@@ -31,6 +33,7 @@ app.controller('loginController', function($rootScope, $scope){
     }
 
     checkIfUserGood = function(){
+        return true;
         if(!window.localStorage.token)
             return true;
         console.log('user is logged in already dude... Have some chill.');
