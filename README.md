@@ -3,6 +3,7 @@ The Very First Mean Project
 
 05-06:
 1. Dynamic link is **GREEN**, but no handling is there yet.
+2. Points 2,3,4 are still remaining.
 <eom>
 
 
