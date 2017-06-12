@@ -6,15 +6,25 @@ var adapter = require('./mongoadapter');
 var serviceHelper = require('./serviceHelper.js');
 
 router.use(function(req,res,next){
-    console.log('[INFO] ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method +' --> ' + req.url.toString());
-    console.log('[INFO] Validating Token: ' + req.get('Authorization'));
-    jwt.verify(req.get('Authorization'), config.secretKey, function(err, decodedToken){
+    if(!req.cookies){
+        console.log('cookies not found.');
+        res.send({sorry: true, regret: false})
+        return;
+
+    }
+    var tokenFromCookies = req.cookies.Authorization;
+    console.log('[INFO]@SECURED ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method +' --> ' + req.url.toString());
+    console.log('[INFO] Validating Token: ' + tokenFromCookies);
+    jwt.verify(tokenFromCookies, config.secretKey, function(err, decodedToken){
         if(err){ 
-            console.log('[ERROR] Could not decode token. Token: ' + req.get('Authorization'));
+            console.log('[ERROR] Could not decode token. Token: ' + tokenFromCookies);
             res.send({success: false, message: 'token can\'t be verified, sorry.'});
         }
         else{
-            if(decodedToken._id != req.session.user._id){
+            console.log('[INFO] The User: ' + decodedToken);
+            console.log(decodedToken.user);
+            console.log(req.session.user._id);
+            if(decodedToken.user != req.session.user._id){
                 console.log('[ERROR] Token Compromised. Team, Fall Back.');
                 res.send({success: false, message: 'token can\'t be verified, sorry.'});
             }
@@ -27,7 +37,7 @@ router.use(function(req,res,next){
 });
 
 
-router.post('/iLikeThis', function(req, res){
+router.all('/iLikeThis', function(req, res){
     res.send({success: true, message: 'token verified, thats good ' + req.userFromToken});
 });
 
@@ -41,7 +51,7 @@ router.post('/toggleUpvote', function(req,res){
 
     if(currentUpvote == 0){
         book.upvoted_by_users.push({userId: user._id, userName: user.name});
-        user.books_he_likes.push({bookId: book._id, bookName: book.book});
+        user.books_he_voted.push({bookId: book._id, bookName: book.book, upvote: true});
         book.points++;
     }
 
@@ -54,7 +64,7 @@ router.post('/toggleUpvote', function(req,res){
         });
 
         book.upvoted_by_users.splice(deleteThisUser,1);
-        user.books_he_likes.splice(deleteThisBook,1);
+        user.books_he_voted.splice(deleteThisBook,1);
         book.points--;
     }
 

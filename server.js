@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 app.set('views', __dirname + '/web');
 app.set('view engine', 'ejs');
@@ -11,9 +12,10 @@ app.engine('html',require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //app.use(morgan('dev'));
+app.use(cookieParser('O yea mofo'));
 app.use(session({secret: "oye"}));
 
-app.use(express.static('./static')); 
+app.use(express.static('./static'));
 /*
 var router = require('./router.js');
 var apiRouter = require('./apiRouter.js');

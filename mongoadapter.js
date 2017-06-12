@@ -17,32 +17,44 @@ var getUser = function (findthis, bc) {
     })
 }
 
-var saveUserHelper = function (book, user, bc) {
+var getBookDetail = function (findthis, bc) {
+    model.Book.findById(findthis, function (err, book) {
+        bc(err, book);
+    })
+}
+
+var saveUserOnly = function (book, user, bc) {
     model.User.findByIdAndUpdate(user._id, user, function (err, updatedUser) {
-        if (err)
+        if (err) {
             console.log('[ERROR] Cannot update the User details to database. was saving this--> ' + user);
-        else
+            bc(err, book, updatedUser);
+        }
+        else {
             console.log('[INFO] User details got updated to the database.');
-        bc(err, book, updateduser);
+            bc(err, book, updatedUser);
+        }
     });
 }
 
 var saveToDB = function (book, user, bc) {
     if (user && !book) {
-        saveUserHelper(book, user, bc);
+        saveUserOnly(book, user, bc);
     }
-    if (book)
-        model.Book.findByIdAndUpdate(book._id, book, function (err, updatedBook) {
-            if (err)
+    else if (book)
+        model.Book.findByIdAndUpdate(book._id,book, function (err, updatedBook) {
+            if (err) {
                 console.log('[ERROR] Cannot update the book details to database. was saving this--> ' + book);
-            else
+                bc(err, updatedBook, user);
+            }
+            else {
                 console.log('[INFO] Book details got updated to the database.');
 
-            if (user) {
-                saveUserHelper(book, user, bc);
+                if (user) {
+                    saveUserOnly(book, user, bc);
+                }
+                else
+                    bc(err, updatedBook, user);
             }
-            else
-                bc(err, updatedBook, user);
         });
 
 }
@@ -50,5 +62,6 @@ var saveToDB = function (book, user, bc) {
 module.exports = {
     getBooks: getbooks,
     getUser: getUser,
+    getBookDetail: getBookDetail,
     saveToDB: saveToDB
 }

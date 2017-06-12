@@ -15,8 +15,8 @@ app.controller('booksController', function ($rootScope, $scope) {
             url: '/site/gateway/getBooks?v=' + $scope.numberofbooks + $scope.querysearch,
             datatype: 'json',
         }).then(function success(res) {
-            $scope.bookstodisplay = res;
-            
+            console.log(res.data);
+            $scope.bookstodisplay = res.data.books;
         }, function failure(err) {
             console.log('shit happened at API');
             $scope.error = true;

@@ -6,17 +6,41 @@ var config = require('./config.js');
 var serviceHelper = require('./serviceHelper.js');
 
 var findthis = {};
-var date = new Date();
+
 
 router.use(function(req,res,next){
-    console.log('[INFO] ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method +' --> ' + req.url.toString());
+    console.log('[INFO]@API ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method +' --> ' + req.url.toString());
     next();
 })
 
 
+router.get('/books/:id' , function(req, res){
+    var id = req.params.id;
+    if(id.match(config.mongoIdRegex).length == 1){
+        adapter.getBookDetail(id, function(err, book){
+            if(err){
+                res.send({success: false, message: 'Error getting book details..', book: null});
+                return;
+            }
+
+            if(req.session.user) console.log('[INFO] User logged in, so mixing user data to the book also..');
+            book = serviceHelper.mapUserToBook(book, req.session.user);
+            res.json({success: true, book: book});
+        })
+    }
+    else{
+        res.send({success: false, message: 'I don\'t like your intentions mate. I\'m not sending you any data.', book: null});
+    }
+})
+
 router.get('/getBooks', function (req, res) {
-    if(req.query.q){
-        var reg = RegExp(req.query.q);
+    var q = req.query.q;
+    if(q){
+        if( !(q.match(config.alphaNumericRegex).length == 1)){
+            res.send({success: false, message: 'I don\'t like your intentions mate. I\'m not sending you any data.', books: null});
+            return;
+        }
+        var reg = RegExp(q);
         findthis = {book: reg};
     }
     else{
@@ -24,17 +48,17 @@ router.get('/getBooks', function (req, res) {
     }
     adapter.getBooks(findthis, parseInt(req.query.v), function (err, books) {
         if (err){ console.log('[ERROR] shit happened at Service. books: ' + books); res.json({success: false}); return;}
-        if (req.session.user){
-            console.log('[INFO] User logged in, so mixing user data to the book also..');
-            books = serviceHelper.mapUserToBooks(books, req.session.user);
-        }
-        res.json(books);
+        if(req.session.user) console.log('[INFO] User logged in, so mixing user data to the book also..');
+
+        books = serviceHelper.mapUserToBooks(books, req.session.user);
+        res.json({success: true, books: books});
     });
 });
 console.log('[STARTUP] Setting up APIs');
 
 router.post('/authenticate', function(req,res){
     console.log(req.body);
+    
     var username = req.body.username;
     var password = req.body.password;
     if(username && password){
@@ -49,6 +73,11 @@ router.post('/authenticate', function(req,res){
                 var token = jwt.sign({user: user._id}, config.secretKey, {expiresIn: 1440*60});
                 console.log('[INFO] I just gave someone a token');
                 req.session.user = user;
+                res.cookie('Authorization', token, {
+                    httpOnly: true,
+                    maxAge:1440*60*1000
+                });
+                console.log(user);
                 res.json({success: true, token: token, user: user, message: 'Ash with cash.'});
             }
         });

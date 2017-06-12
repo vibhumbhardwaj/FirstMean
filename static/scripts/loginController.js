@@ -19,8 +19,6 @@ app.controller('loginController', function($rootScope, $scope){
                 console.log('Looks like I just got a token buddy!! Saving it now.');
                 window.localStorage.token = res.data.token;
                 window.localStorage.name = res.data.user.name;
-                $rootScope.http.defaults.headers.common.Authorization = window.localStorage.token;
-                //$rootScope.token = res.data.token;
                 console.log('saved token as ' + window.localStorage.token);
             }
             if(res.data.removeCacheRequired)

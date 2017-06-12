@@ -10,15 +10,20 @@
         width: 250px;
         margin: 20px;
     }
+    .yoman{
+        font-family: fantasy
+    }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <script src="scripts/angular.js"></script>
-    <script src="scripts/booksApp.js"></script>
-    <script src="scripts/booksController.js"></script>  
+    
+    <script src="/scripts/angular.js"></script>
+    <script src="/scripts/booksApp.js"></script>
+    <script src="/scripts/bookdetailController.js"></script>
+
 </head>
 
 <body ng-app="booksApp" ng-controller="bookdetailController">
-<div id="bookcontainer">
+<div id="bookcontainer" ng-if="!error">
 <!--
 {{bookstodisplay}}
 <br>
@@ -27,12 +32,19 @@
 
 Name: {{book.book}}<br>
 Is this available? {{!book.issued}}<br>
-Total Points: {{book.upvots}}<br>
+Total Points: {{book.points}} &nbsp; <span ng-class="{'yoman': book.upvoteStatus == 1}" ng-click="toggleUpvote()">UPVOTE</span><br>
+{{book.issuedTo}}<br>
+<div ng-if="book.issuedToCurrentUser">
+    Hey you! Yes you nigga, Mr. Librarian was looking for you. When are you gonna return the book huh?
+</div>
 
+
+<div ng-if="book.upvoted_by_users[0]"
 These People like this: <br>
 <ul ng-repeat="user in book.usersLikingThis">
     <li>{{user.userName}}</li>
 </ul>
+</div>
 
 
 
