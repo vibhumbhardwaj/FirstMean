@@ -1,6 +1,12 @@
 # FirstMean
 The Very First Mean Project
 
+06/07:
+Wow. It's been a month already.
+1. Upvoting isn't done yet. so many issues saving the data. *check for NaN in points' value*
+2. Changed frontend contract for toggleUpvote, only book id required in request, not the whole object.
+
+
 05-06:
 1. Dynamic link is **GREEN**, but no handling is there yet.
 2. Points 2,3,4 are still remaining.
