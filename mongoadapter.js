@@ -37,6 +37,8 @@ var saveUserOnly = function (book, user, bc) {
 }
 
 var saveToDB = function (book, user, bc) {
+    console.log('\n\n\n' + book._id + ' \n' + user._id + '\n\n\n\n');
+
     if (user && !book) {
         saveUserOnly(book, user, bc);
     }

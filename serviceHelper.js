@@ -8,7 +8,7 @@ var mapUserToBooks = function(books, user){
 }
 
 var mapUserToBook = function(book, user){
-    var upVoteStatus = 0;
+    var upvoteStatus = 0;
     if(book.who_has_this){
         book._doc.issued = true;
         book._doc.issuedTo = book.who_has_this.userName;
@@ -23,8 +23,8 @@ var mapUserToBook = function(book, user){
         upvoteStatus =  getUpVoteStatus(book, user);
     }
 
-    console.log('[INFO] Got this upvoteStatus--> ' + upVoteStatus + ' <--for book-->' + book.book +' -- '+ book._id);
-    book._doc.upvoteStatus = upVoteStatus;
+    console.log('[INFO] Got this upvoteStatus--> ' + upvoteStatus + ' <--for book-->' + book.book +' -- '+ book._id);
+    book._doc.upvoteStatus = upvoteStatus;
     console.log('[INFO]. Book generated: \n' + book);
     return book;
 }
@@ -65,6 +65,7 @@ var getUpVoteStatus = function(book, user){
     console.log('Getting upvote status for user: ' + user.name);
     var returnval = 0;
     user.books_he_voted.forEach(function(bookFromUser) {
+        console.log('\n\n\n\n' + book._doc._id + '\n\n\n' + bookFromUser.bookId);
         if(book._doc._id == bookFromUser.bookId){
             if(bookFromUser.upvote)
                 returnval =  1;

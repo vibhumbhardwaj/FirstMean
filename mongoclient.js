@@ -1,21 +1,36 @@
 var mongomodel = require('./mongomodel.js');
 
 var newBook = new mongomodel.Book({
-    book: 'Killing Floor',
-    author: 'Lee Child',
+    book: 'Room 13',
+    author: 'Robert Somethingsomething',
     who_has_this: null,
+    upvoted_by_users: [{userId:'595decc2f2d4b459686fa660', userName:'notVibhu'}],
+    points: 1,
+    _id:'595cccdb459f28462c709a3a'
 });
+
+
+
+var someUser = {
+    _id:'595decc2f2d4b459686fa660',
+    name: 'notVibhum',
+    username: 'yoman',
+    password: 'password',
+    admin: false,
+    books_he_voted: [{bookId:'595cccdb459f28462c709a3a', bookName: 'Room 13', upvote: true}],
+    books_he_has: []
+};
 
 var vbUser = {
     name: 'Vibhum',
     username: 'a@a.com',
     password: '123654',
     admin: true,
-    books_he_likes: [],
+    books_he_voted: [],
     books_he_has: []
 };
 
-var newUser = new mongomodel.User(vbUser);
+var newUser = new mongomodel.User(someUser);
 
 var updateBook = {
     book: 'Killing Floor',
@@ -23,28 +38,30 @@ var updateBook = {
     who_has_this: {userId: '5933d1d310feaf4a38729553', userName: 'Vibhum'},
     _id: '5933d2d51d402d62d8a7b842'
 }
-/*
-mongomodel.Book.findByIdAndUpdate(updateBook._id, updateBook, function(err, book){
+
+mongomodel.User.findByIdAndUpdate(newUser._id, newUser, function(err, book){
     if (err) throw err;
+    console.log('after update -->' + book.books_he_voted[0].bookName);
     //book = updateBook;
-    getBooks();
-
+    //getBooks();
 })
-*/
+
 
 /*
-newBook.save(function(err){
-    if(err) console.error('shit happens. this time happened while saving the book you gave me save into the database.');
+newUser.save(function(err){
+    console.log("start");
+    if(err) console.error('shit happens.');
     console.log('o ya.');
 });
-*/
+
 //C for Create
 /*
 newUser.save(function(err){
+    console.log("init.");
     if(err) console.error('shit happens. this time happened while saving the user you gave me save into the database.');
     console.log('o ya.');
-});*/
-
+});
+*/
 //mongomodel.User.findOne({username: 'a@a.com',})
 
 
@@ -53,7 +70,7 @@ var readBook = function(){
         console.log(books[0].who_has_this);
     })
 }
-readBook();
+//readBook();
 
 
 var resetPoints = function() { // To update all books with points 0;
@@ -73,7 +90,7 @@ var useAndThrow = function(){
     });
 }
 
-useAndThrow();
+
 // RU D (you know how to delete. don't act like you don't)
 var getBooks = function () {
     mongomodel.Book.findOneAndUpdate({ _id : '5923e920d266fb2134746867' },{book:'Doh'}, function (err, data) { // Only find for reading, then you can do .save or .remove the old fashioned way also..

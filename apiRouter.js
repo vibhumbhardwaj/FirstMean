@@ -23,8 +23,8 @@ router.get('/books/:id' , function(req, res){
                 return;
             }
 
-            if(req.session.user) console.log('[INFO] User logged in, so mixing user data to the book also..');
-            book = serviceHelper.mapUserToBook(book, req.session.user);
+            if(req.session.user){ console.log('[INFO] User logged in, so mixing user data to the book also..');
+            book = serviceHelper.mapUserToBook(book, req.session.user);}
             res.json({success: true, book: book});
         })
     }
