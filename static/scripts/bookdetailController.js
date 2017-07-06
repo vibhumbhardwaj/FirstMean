@@ -26,7 +26,7 @@ app.controller('bookdetailController', function($rootScope, $scope){
     $scope.toggleUpvote = function(){
         $rootScope.http({
             url: '/site/gateway/secure/toggleUpvote',
-            data: {book: $scope.book},
+            data: {bookId: $scope.book._id},
             datatype: 'json',
             method: 'POST'
         }).then(function success(yoman){
