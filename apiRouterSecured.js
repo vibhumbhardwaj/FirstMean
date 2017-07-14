@@ -29,7 +29,7 @@ router.use(function (req, res, next) {
             console.log('[INFO] The User: ' + decodedToken);
             console.log(decodedToken.user);
             console.log(loggedInUser._id);
-            if (decodedToken.user != loggedInUser._id) {
+            if (decodedToken.userId != loggedInUser._id) {
                 console.log('[ERROR] Token Compromised. Team, Fall Back.');
                 res.json({ success: false, message: 'token can\'t be verified, sorry.' });
             }
@@ -69,10 +69,10 @@ router.get('/getProspectList', function (req, res) {
 router.post('/returnTheBook', function (req, res) {
     var bookId = req.body.bookId;
     var userId ;
-    if (bookId.match(config.mongoIdRegex).length == 1 && userId.match(config.mongoIdRegex).length == 1 && (userId == loggedInUser._id || loggedInUser.admin)) {
+    if (bookId.match(config.mongoIdRegex).length == 1 && (userId == loggedInUser._id || loggedInUser.admin)) {
         adapter.getBookDetail(bookId, function (err, book) {
             if (!err && book._doc.who_has_this) {
-                userId = book._id.who_has_this.userId;
+                userId = book._doc.who_has_this.userId;
                 adapter.getUser({ '_id': userId }, function (err, user) {
                     if (!err && user.books_he_has[0]) {
                         user = serviceHelper.getUserAfterReturn(user, bookId);

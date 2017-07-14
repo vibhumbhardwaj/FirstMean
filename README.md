@@ -2,8 +2,11 @@
 The Very First Mean Project
 
 14/07
+Hotfix for "return" functionality applied (changes in APIsecure.js and bookController.js)
+
+14/07
 Sorry didn't 
-1. ISSUE/RETURN/UPVOTING done. <-- Nice ()
+1. ISSUE/RETURN/UPVOTING done. <-- Nice
 2. Regression part needed at returning part (but I'm pretty confident).
 3. **CSS**. Make this a priority. It's high time dude.
 4. Yea, first some CSS shit, then you got to clean up some front-end mess too. (I know you'll do it with point 3 though).
