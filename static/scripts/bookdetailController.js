@@ -59,8 +59,8 @@ app.controller('bookdetailController', function($rootScope, $scope){
     }
 
     $scope.returnBack = function() {
-        $rootScope.HTTP({
-            url: '/site/gateway/secure/eturnTheBook',
+        $rootScope.http({
+            url: '/site/gateway/secure/returnTheBook',
             data: {bookId: $scope.book._id},
             method: 'POST'
         }).then(function success(res){
