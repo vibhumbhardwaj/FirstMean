@@ -23,6 +23,12 @@ var getBookDetail = function (findthis, bc) {
     })
 }
 
+var getAllUsers = function(bc) {
+    model.User.find(function(err, users){
+        bc(err, users);
+    })
+}
+
 var saveUserOnly = function (book, user, bc) {
     model.User.findByIdAndUpdate(user._id, user, function (err, updatedUser) {
         if (err) {
@@ -65,5 +71,6 @@ module.exports = {
     getBooks: getbooks,
     getUser: getUser,
     getBookDetail: getBookDetail,
-    saveToDB: saveToDB
+    saveToDB: saveToDB,
+    getAllUsers: getAllUsers
 }

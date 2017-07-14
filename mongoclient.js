@@ -1,12 +1,11 @@
 var mongomodel = require('./mongomodel.js');
 
 var newBook = new mongomodel.Book({
-    book: 'Room 13',
-    author: 'Robert Somethingsomething',
-    who_has_this: null,
-    upvoted_by_users: [{userId:'595decc2f2d4b459686fa660', userName:'notVibhu'}],
-    points: 1,
-    _id:'595cccdb459f28462c709a3a'
+    book: '2001: A Space Odyssey',
+    author: 'Arhur C. Clarke',
+    who_has_this: {userId: '595ccc348e5f634a1443a704', userName: 'Vibhum'},
+    upvoted_by_users: [],
+    points: 0,
 });
 
 
@@ -38,17 +37,17 @@ var updateBook = {
     who_has_this: {userId: '5933d1d310feaf4a38729553', userName: 'Vibhum'},
     _id: '5933d2d51d402d62d8a7b842'
 }
-
+/*
 mongomodel.User.findByIdAndUpdate(newUser._id, newUser, function(err, book){
     if (err) throw err;
     console.log('after update -->' + book.books_he_voted[0].bookName);
     //book = updateBook;
     //getBooks();
 })
+*/
 
 
-/*
-newUser.save(function(err){
+newBook.save(function(err){
     console.log("start");
     if(err) console.error('shit happens.');
     console.log('o ya.');

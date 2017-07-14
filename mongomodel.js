@@ -25,7 +25,7 @@ var inlineUserSchema = new Schema({
     userName: String
 })
 
-var bookUpvoteSchema = new Schema({
+var bookVotingSchema = new Schema({
     bookId: String,
     bookName: String,
     upvote: Boolean
@@ -36,14 +36,14 @@ var schemaForUsers = new Schema({
     username: {type: String, unique: true},
     password: String,
     books_he_has: [inlineBookSchema],
-    books_he_voted: [bookUpvoteSchema],
+    books_he_voted: [bookVotingSchema],
     admin: Boolean
 });
 
 var schemaForBooks = new Schema({
     book: String,
     author: String,
-    who_has_this: Object,
+    who_has_this: inlineUserSchema,
     points: Number,
     upvoted_by_users: [inlineUserSchema],
     downvoted_by_users: [inlineUserSchema]
