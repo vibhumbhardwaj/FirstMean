@@ -1,6 +1,19 @@
 # FirstMean
 The Very First Mean Project
 
+14/07
+Sorry didn't 
+1. ISSUE/RETURN/UPVOTING done. <-- Nice ()
+2. Regression part needed at returning part (but I'm pretty confident).
+3. **CSS**. Make this a priority. It's high time dude.
+4. Yea, first some CSS shit, then you got to clean up some front-end mess too. (I know you'll do it with point 3 though).
+
+
+06/07: *Wow. It's been a month already.*
+1. Upvoting isn't done yet. so many issues saving the data. check for NaN in points' value
+2. Changed frontend contract for toggleUpvote, only book id required in request, not the whole object.
+
+
 05-06:
 1. Dynamic link is **GREEN**, but no handling is there yet.
 2. Points 2,3,4 are still remaining.
