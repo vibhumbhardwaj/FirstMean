@@ -18,7 +18,8 @@ app.controller('loginController', function($rootScope, $scope){
             if(res.data.success){
                 console.log('Looks like I just got a token buddy!! Saving it now.');
                 window.localStorage.token = res.data.token;
-                window.localStorage.name = res.data.user.name;
+                //window.localStorage.name = res.data.user.name;
+                $scope.chill = false;
                 console.log('saved token as ' + window.localStorage.token);
             }
             if(res.data.removeCacheRequired)
