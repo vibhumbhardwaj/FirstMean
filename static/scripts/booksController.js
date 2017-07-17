@@ -8,6 +8,19 @@ app.controller('booksController', function ($rootScope, $scope) {
         window.open('books/'+ bookId);
     }
 
+    $scope.getImageSource = function(bookId) {
+        return '/images/abc.jpg';
+    }
+
+    $scope.toggleSearchBar = function() {
+        var searchBox = document.getElementById('searchBox');
+
+        if(searchBox.style.display == 'none')
+            searchBox.style.display = 'inline';
+        else
+            searchBox.style.display = 'none';
+    }
+
     $scope.hitIt = function () {
         $scope.querysearch = ($scope.search) ? '&q='+ $scope.search : '';
         $rootScope.http({
