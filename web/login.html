@@ -1,14 +1,15 @@
 <html>
+
 <head>
     <title>Books</title>
     <style>
-    #bookscontainer li{
-        float : "left";
-    }
+        #bookscontainer li {
+            float: "left";
+        }
     </style>
-    <script src="/scripts/angular.js"></script>
-    <script src="/scripts/booksApp.js"></script>
-    <script src="/scripts/loginController.js"></script>  
+
+<link rel="import" href = "/headerInclude.html">
+    <script src="/scripts/loginController.js"></script>
 </head>
 
 <body ng-app="booksApp" ng-controller="loginController">
@@ -18,8 +19,8 @@
     <input type="password" ng-model="password" ng-blur="loginUser()">
 
 
-<br><span ng-if="chill"> User is already logged in. no need to panic.</span>
-<br>
-<hr>
-<input type="button" value="sign me out of this." ng-click="logoutUser()"/>
+    <br><span ng-if="chill"> User is already logged in. no need to panic.</span>
+    <br>
+    <hr>
+    <input type="button" value="sign me out of this." ng-click="logoutUser()" />
 </body>

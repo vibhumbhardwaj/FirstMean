@@ -1,46 +1,58 @@
 <html>
+
 <head>
     <title>Books</title>
     <style>
-    #bookcontainer{
-        width: 1100px;
-    }
-    #bookscontainer li {
-        float: left;
-        width: 250px;
-        margin: 20px;
-    }
+        #bookcontainer {
+            max-width: 1200px;
+            margin-top: 100px
+        }
+
+        #bookscontainer li {
+            float: left;
+            width: 250px;
+            margin: 20px;
+        }
     </style>
-    <script src="/scripts/angular.js"></script>
-    <script src="/scripts/booksApp.js"></script>
-    <script src="/scripts/booksController.js"></script>  
+    <link rel="import" href="/headerInclude.html">
+    <script src="/scripts/booksController.js"></script>
 </head>
 
-<body ng-app="booksApp" ng-controller="booksController">
+<body ng-app="booksApp" ng-controller="booksController" style="display: block">
     <span ng-if="error">What happened? Shit Happened. Bloody shit.</span>
+    <div class="w3-top vb-parent" style=" display: block;  overflow: hidden; width: 100%">
+        <div class="w3-left">
+            <span class="w3-button" ng-click="toggleSearchBar()">Find Books</span>
+            <!-- <img src="/images/searchIcon.png" height="30px" width="108px" ng-click="toggleSearchBar()"> -->
+        </div>
+        <div class="w3-animate-left" id="searchBox" style="display: none">
+            <input type="text" class="w3-input" style="display: inline-block; width: 50%" ng-model="search" ng-blur="hitIt()" placeholder="Just Type and Go"/>
+        </div>
 
-    <input type="text" ng-model="search" ng-blur="hitIt()">
-<div id="bookscontainer">
+        <div class="w3-right">
+            <span class="w3-button">Other</span>
+            <span class="w3-button">Buttons</span>
+        </div>
 
-<!--
+
+    </div>
+    <div id="bookscontainer" class="w3-main w3-content w3-padding">
+
+        <!--
 {{bookstodisplay}}
 <br>
 {{bookstodisplay.data[0].book}}
 -->
-<ul>
-    <li ng-repeat="book in bookstodisplay">
-        Name of the book bro: {{book.book}}<br>
-        Total Upvotes: {{book.points}}<br>
-        
-        Issued ? {{book.issued}}
-        to current user ? {{book.issuedToCurrentUser}}
-        <a ng-click = 'createBookLink(book._id)'>Go to</a>
+        <ul>
+            <li ng-repeat="book in bookstodisplay">
+                <img ng-src="/images/{{book._id}}.jpg" width="70%" height="100px">
+                <br> Name of the book bro: {{book.book}}<br> Total Upvotes: {{book.points}}<br> Issued ? {{book.issued}}
+                to current user ? {{book.issuedToCurrentUser}}
+                <a ng-click='createBookLink(book._id)'>Go to</a>
 
-        
-        
-    </li>
-</ul>
-</div>
+            </li>
+        </ul>
+    </div>
 
 
 </body>
