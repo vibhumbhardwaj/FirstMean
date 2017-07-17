@@ -1,6 +1,9 @@
 # FirstMean
 The Very First Mean Project
 
+17/07
+CSS part started; Books html first.
+
 14/07
 Hotfix for "return" functionality applied (changes in APIsecure.js and bookController.js)
 
