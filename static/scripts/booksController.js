@@ -5,11 +5,16 @@ app.controller('booksController', function ($rootScope, $scope) {
     $scope.search;
 
     $scope.createBookLink = function(bookId){
-        window.open('books/'+ bookId);
+        window.open('books/'+ bookId, '_self');
     }
 
     $scope.getImageSource = function(bookId) {
         return '/images/abc.jpg';
+    }
+
+    $scope.resetSearch = function(){
+        $scope.search = null;
+        $scope.hitIt();
     }
 
     $scope.toggleSearchBar = function() {
