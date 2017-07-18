@@ -3,9 +3,7 @@
 <head>
     <title>Books</title>
     <style>
-        #bookscontainer li {
-            float: "left";
-        }
+
     </style>
 
 <link rel="import" href = "/headerInclude.html">
@@ -13,14 +11,14 @@
 </head>
 
 <body ng-app="booksApp" ng-controller="loginController">
-    <span ng-if="error">What happened? Shit Happened. Bloody shit.</span>
+    <br><span ng-if="error">What happened? Shit Happened. Bloody shit.</span>
 
-    <input type="text" ng-model="username"><br>
-    <input type="password" ng-model="password" ng-blur="loginUser()">
-
-
+    <input type="text" ng-model="username" class="w3-input" placeholder="Enter your Username here."><br>
+    <input type="password" ng-model="password" ng-blur="loginUser()" class="w3-input" placeholder="Then your password. You get logged in automatically. There's no button">
+    <br>
+   <i> Don't have one to begin with? Oh well get out of here then. </i><br><span class="w3-button" ng-click="logoutUser()">Sign me out please.<span>
     <br><span ng-if="chill"> User is already logged in. no need to panic.</span>
     <br>
-    <hr>
-    <input type="button" value="sign me out of this." ng-click="logoutUser()" />
+    
+    
 </body>

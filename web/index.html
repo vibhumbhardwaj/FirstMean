@@ -20,17 +20,17 @@
 
 <body ng-app="booksApp" ng-controller="booksController" style="display: block">
     <span ng-if="error">What happened? Shit Happened. Bloody shit.</span>
-    <div class="w3-top vb-parent" style=" display: block;  overflow: hidden; width: 100%">
+    <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
         <div class="w3-left">
             <span class="w3-button" ng-click="toggleSearchBar()">Find Books</span>
             <!-- <img src="/images/searchIcon.png" height="30px" width="108px" ng-click="toggleSearchBar()"> -->
         </div>
         <div class="w3-animate-left" id="searchBox" style="display: none">
-            <input type="text" class="w3-input" style="display: inline-block; width: 50%" ng-model="search" ng-blur="hitIt()" placeholder="Just Type and Go"/>
+            <input type="text" class="w3-input" style="display: inline-block; width: 50%" ng-model="search" ng-change="hitIt()" placeholder="Just Type and Go"/>
         </div>
 
         <div class="w3-right">
-            <span class="w3-button">Other</span>
+            <span class="w3-button" ng-click="resetSearch()">Show All</span>
             <span class="w3-button">Buttons</span>
         </div>
 
@@ -44,12 +44,12 @@
 {{bookstodisplay.data[0].book}}
 -->
         <ul>
-            <li ng-repeat="book in bookstodisplay">
-                <img ng-src="/images/{{book._id}}.jpg" width="70%" height="100px">
-                <br> Name of the book bro: {{book.book}}<br> Total Upvotes: {{book.points}}<br> Issued ? {{book.issued}}
+            <li ng-repeat="book in bookstodisplay" ng-class="{'vb-transparent': book.issued}">
+                <img ng-src="/images/{{book._id}}.jpg" width="200px" height="200px" ng-click="createBookLink(book._id)">
+                <br> Name of the book bro: {{book.book}}<br> Total Upvotes: <b>{{book.points}}</b><br>
+                Issued ? {{book.issued}}
                 to current user ? {{book.issuedToCurrentUser}}
-                <a ng-click='createBookLink(book._id)'>Go to</a>
-
+                <a ng-href='books/{{book._id}}'>Go to</a>
             </li>
         </ul>
     </div>

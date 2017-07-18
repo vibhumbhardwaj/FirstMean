@@ -5,6 +5,7 @@
     <style>
         #bookcontainer {
             width: 1100px;
+            margin-top: 40px
         }
 
         #bookscontainer li {
@@ -17,16 +18,31 @@
             font-family: fantasy
         }
     </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-    <script src="/scripts/angular.js"></script>
-    <script src="/scripts/booksApp.js"></script>
+    <link rel="import" href="/headerInclude.html">
     <script src="/scripts/bookdetailController.js"></script>
 
 </head>
 
 <body ng-app="booksApp" ng-controller="bookdetailController">
-    <div id="bookcontainer" ng-if="!error">
+    <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
+        <!-- <div class="w3-left">
+            <span class="w3-button" ng-click="toggleSearchBar()">Find Books</span>
+            
+        </div>
+        <div class="w3-animate-left" id="searchBox" style="display: none">
+            <input type="text" class="w3-input" style="display: inline-block; width: 50%" ng-model="search" ng-change="hitIt()" placeholder="Just Type and Go"
+            />
+        </div> -->
+
+        <div class="w3-right">
+            <span class="w3-button">Some</span>
+            <span class="w3-button">Random</span>
+            <span class="w3-button">Buttons</span>
+        </div>
+
+
+    </div>
+    <div id="bookcontainer" ng-if="!error" class="w3-main w3-content w3-padding">
         <!--
 {{bookstodisplay}}
 <br>
@@ -41,18 +57,16 @@
                 <input type="button" value="Return back" ng-click="returnBack()" />
             </div>
             <div ng-if="!book.issuedToCurrentUser && isAdmin()">
-                <input type="button" value="Get back" ng-click="returnBack()"/>
+                <input type="button" value="Get back" ng-click="returnBack()" />
             </div>
         </div>
         <div ng-if="!book.issued">
-            <input type="button" value="Issue" ng-click="issue()" /><br>
-            ADMIN: {{isAdmin()}}&nbsp;
-            prospectList: {{prospectList[0]}}&nbsp;
+            <input type="button" value="Issue" ng-click="issue()" /><br> ADMIN: {{isAdmin()}}&nbsp; prospectList: {{prospectList[0]}}&nbsp;
             <div ng-if="isAdmin() && prospectList[0]">
-            Click the user you want to issue this book for...
-            <ul ng-repeat="user in prospectList">
-                <li ng-click="issueForThis(user.userId)">{{user.userName}}</li>
-            </ul>
+                Click the user you want to issue this book for...
+                <ul ng-repeat="user in prospectList">
+                    <li ng-click="issueForThis(user.userId)">{{user.userName}}</li>
+                </ul>
             </div>
         </div>
         <div ng-if="book.upvoted_by_users[0]">
