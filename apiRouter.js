@@ -7,7 +7,7 @@ var serviceHelper = require('./serviceHelper.js');
 
 var findthis = {};
 
-
+//Implement that loggedin User here also.
 router.use(function (req, res, next) {
     console.log('[INFO]@API ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method + ' --> ' + req.url.toString());
     next();
@@ -27,6 +27,10 @@ router.get('/books/:id', function (req, res) {
                 console.log('[INFO] User logged in, so mixing user data to the book also..');
                 book = serviceHelper.mapUserToBook(book, req.session.user);
             }
+            else{
+                console.log('[INFO] User not logged in.');
+                book = serviceHelper.mapUserToBook(book);
+            } // todo: no if else. Merge the logic.
             res.json({ success: true, book: book });
         })
     }
