@@ -17,7 +17,7 @@ app.run(function ($rootScope, $http) {
             if(res.data.success)
                 window.localStorage.clear();
         }, function failure(err){
-            console.err(err);
+            console.error(err);
         });
         console.log('signed out.');
     }
