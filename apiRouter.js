@@ -19,7 +19,7 @@ router.get('/logout', function(req,res){
         req.session.destroy();
         res.clearCookie('Authorization');
         //test:
-        if(req.session.user)
+        if(!req.session)
             res.send({success: true, message: 'logout complete'});
         else
             console.log('please dont print please. por favor. Sil Vous Plait !!!!');
