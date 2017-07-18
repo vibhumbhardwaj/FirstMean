@@ -54,6 +54,10 @@ router.get('/getBooks', function (req, res) {
             console.log('[INFO] User logged in, so mixing user data to the book also..');
             books = serviceHelper.mapUserToBooks(books, req.session.user);
         }
+        else{
+            console.log('[INFO] User is just an enquirer.');
+            books = serviceHelper.mapUserToBooks(books);
+        }
         res.json({ success: true, books: books });
     });
 });

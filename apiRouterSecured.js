@@ -69,12 +69,12 @@ router.get('/getProspectList', function (req, res) {
 router.post('/returnTheBook', function (req, res) {
     var bookId = req.body.bookId;
     var userId ;
-    if (bookId.match(config.mongoIdRegex).length == 1 && (userId == loggedInUser._id || loggedInUser.admin)) {
+    if (bookId.match(config.mongoIdRegex).length == 1) {
         adapter.getBookDetail(bookId, function (err, book) {
             if (!err && book._doc.who_has_this) {
                 userId = book._doc.who_has_this.userId;
                 adapter.getUser({ '_id': userId }, function (err, user) {
-                    if (!err && user.books_he_has[0]) {
+                    if (!err && user.books_he_has[0] && (userId == loggedInUser._id || loggedInUser.admin)) {
                         user = serviceHelper.getUserAfterReturn(user, bookId);
                         book.who_has_this = null;
                         adapter.saveToDB(book, user, function (err, book, user) {

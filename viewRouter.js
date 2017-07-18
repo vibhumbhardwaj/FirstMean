@@ -34,6 +34,10 @@ router.get('/solve', function (req, res) {
 
 router.get('/login', function(req,res){
     res.render('login.html');
-})
+});
+
+router.get('/yoman', function(req, res){
+    res.render('amazon.html');
+});
 
 module.exports = router;
