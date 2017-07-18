@@ -9,11 +9,7 @@ router.use(function(req,res,next){
     next();
 })
 
-router.get('/logout', function(req,res){
-        console.log('p uea.');
-        req.session.destroy();
-        res.send({success: true, message: 'logout complete'} );
-})
+
 
 router.get('/',function(req,res){
     res.render('login.html');

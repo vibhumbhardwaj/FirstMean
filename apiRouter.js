@@ -14,6 +14,17 @@ router.use(function (req, res, next) {
 })
 
 
+router.get('/logout', function(req,res){
+        console.log('[INFO] Deleting User Session...');
+        req.session.destroy();
+        res.clearCookie('Authorization');
+        //test:
+        if(req.session.user)
+            res.send({success: true, message: 'logout complete'});
+        else
+            console.log('please dont print please. por favor. Sil Vous Plait !!!!');
+});
+
 router.get('/books/:id', function (req, res) {
     var id = req.params.id;
     if (id.match(config.mongoIdRegex).length == 1) {

@@ -10,9 +10,15 @@ app.run(function ($rootScope, $http) {
             $rootScope.http.defaults.headers.common.Authorization = window.localStorage.token;
     }
     $rootScope.logoutUser = function () {
-        window.localStorage.clear();
-        $rootScope.http.defaults.headers.common = {};
-        document.cookie = 'Authorization' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        $http({
+            method: 'GET',
+            url: '/site/gateway/logout'
+        }).then(function success(res){
+            if(res.data.success)
+                window.localStorage.clear();
+        }, function failure(err){
+            console.err(err);
+        });
         console.log('signed out.');
     }
 
