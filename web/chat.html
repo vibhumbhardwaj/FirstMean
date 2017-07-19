@@ -7,7 +7,21 @@
         <script src="/scripts/chatController.js"></script>
     </head>
     <body ng-app="booksApp" ng-controller="chatController">
-        <div class="w3-main w3-content w3-padding">
+                <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
+            <div class="w3-left">
+                <span class="w3-button" ng-click="visitBooks()">BOOK-BOOK-BAKOOB</span>
+            </div>
+
+        <div class="w3-right">
+            <span class="w3-button">Other</span>
+            <span class="w3-button">Random</span>
+            <span class="w3-button">Buttons</span>
+            <span class="w3-button" ng-click="visitChat();"><b>CHAT</b></span>
+        </div>
+
+
+    </div>
+        <div class="w3-main w3-content w3-padding vb-main">
             <textarea class="w3-input" ng-model="message" placeholder="Type in your message here."></textarea>
             <span class="w3-button" ng-click="send()">Send</span>
             <div ng-repeat="msg in messages track by $index">
