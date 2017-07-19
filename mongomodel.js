@@ -1,33 +1,52 @@
 var mongoose = require('mongoose');
+var config = require('./config.js');
 
-mongoose.connect('mongodb://localhost/dbone/');
+mongoose.connect(config.connectionString);
 var db = mongoose.connection;
 
-db.addListener('error',function(){
-    console.error('shit happens');
+db.addListener('error',function(err){
+    console.error('[ERROR]\n' + err);
+    console.error('[ERROR] shit happened at Database Level');
+    //console.log(err);
 });
 
-db.addListener('open',function(){
-    console.log('we\'re up buddy.');
+db.on('open',function(){
+    console.log('[STARTUP]Database\'s up. We\'re up buddy.');
 });
 var Schema = mongoose.Schema;
 
+var inlineBookSchema = new Schema({
+    bookName: String,
+    bookId: String
+});
+
+var inlineUserSchema = new Schema({
+    userId: String,
+    userName: String
+})
+
+var bookVotingSchema = new Schema({
+    bookId: String,
+    bookName: String,
+    upvote: Boolean
+})
+
 var schemaForUsers = new Schema({
     name: String,
-    username: String,
+    username: {type: String, unique: true},
     password: String,
-    books_he_has: [String],
-    books_he_likes: [String],
-    books_he_dislikes: [String]
+    books_he_has: [inlineBookSchema],
+    books_he_voted: [bookVotingSchema],
+    admin: Boolean
 });
 
 var schemaForBooks = new Schema({
     book: String,
     author: String,
-    who_has_this: String,
+    who_has_this: inlineUserSchema,
     points: Number,
-    upvoded_by_users: [String],
-    downvoted_by_users: [String]
+    upvoted_by_users: [inlineUserSchema],
+    downvoted_by_users: [inlineUserSchema]
 });
 
 var Book = mongoose.model('Book', schemaForBooks);

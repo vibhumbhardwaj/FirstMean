@@ -6,6 +6,5 @@ module.exports = function(app){
     app.get('/solve', function(req,res){
         res.render('okay.html');
     });
-    var apiRouter = express.Router();
-    apiRouter.get('/getBooks', function()
+    //var apiRouter = express.Router();
 }
