@@ -4,6 +4,22 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var messages = [];
+
+io.on('connection', function(socket){
+    console.log('............................im in here.......................');
+    socket.emit('update', messages);
+    socket.on('chat message', function(msg){
+        console.log('................saving message supposedly........................\n' + msg);
+        messages.push(msg);
+        socket.broadcast.emit('newAddition', msg);
+        console.log('updated messages sent to the client.');   
+    });
+});
+
 
 app.set('views', __dirname + '/web');
 app.set('view engine', 'ejs');
@@ -29,9 +45,16 @@ var apiRouterSecured = require('./apiRouterSecured.js');
 app.use('/site',viewRouter);
 app.use('/site/gateway', apiRouter);
 app.use('/site/gateway/secure', apiRouterSecured);
+router.get('/',function(req,res){
+    res.render('login.html');
+});
 
+server.listen(80, function(){
+    console.log('STARTED>');
+});
 
-
+/*
 var server = app.listen(80,function(){
     console.log('[STARTUP] Web Server Up.');
 });
+*/

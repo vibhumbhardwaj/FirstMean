@@ -31,20 +31,24 @@
         </div> -->
 
         <div class="w3-right">
-            <span class="w3-button">Some</span>
-            <span class="w3-button">Random</span>
-            <span class="w3-button">Buttons</span>
+            <span class="w3-button">Button</span>
+            <span class="w3-button">I do nothing</span>
+            <span class="w3-button" ng-click="visitChat();"><b>CHAT</b></span>
         </div>
 
 
     </div>
     <div id="bookcontainer" ng-if="!error" class="w3-main w3-content w3-padding vb-main">
-        <!--
-{{bookstodisplay}}
-<br>
-{{bookstodisplay.data[0].book}}
--->
-
+        <h2>{{book.book}}</h2><h4>{{book.author}}</h4>
+        <!-- <div class="w3-padding-16"></div> -->
+        <div class="w3-left">
+            <img ng-src="/images/{{book._id}}.jpg" width="400px" height="400px" onerror="this.src='/images/searchIcon.png'">
+        </div>
+        <div class="w3-left vb-leftMargin">
+            <h1>{{book.points}}</h1>
+        </div>
+            
+<!--         
         Name: {{book.book}}<br> Is this available? {{!book.issued}}<br> Total Points: {{book.points}} &nbsp; <span ng-class="{'yoman': book.upvoteStatus == 1}"
             ng-click="toggleUpvote()">UPVOTE</span><br>
         <div ng-if="book.issued">Issued To: {{book.issuedTo}}<br>
@@ -70,13 +74,7 @@
             <ul ng-repeat="user in book.upvoted_by_users">
                 <li>{{user.userName}}</li>
             </ul>
-        </div>
-
-
-
-
-
-
+        </div> -->
 
     </div>
 

@@ -10,6 +10,10 @@ app.run(function ($rootScope, $http) {
             $rootScope.http.defaults.headers.common.Authorization = window.localStorage.token;
     }
 
+    $rootScope.visitChat = function(){
+        window.open('/site/chat', '_self');
+    }
+
     $rootScope.visitBooks = function(){
         window.open('/site/books');
     }
