@@ -9,6 +9,11 @@ app.run(function ($rootScope, $http) {
         if (window.localStorage.token)
             $rootScope.http.defaults.headers.common.Authorization = window.localStorage.token;
     }
+
+    $rootScope.visitBooks = function(){
+        window.open('/site/books');
+    }
+
     $rootScope.logoutUser = function () {
         $http({
             method: 'GET',

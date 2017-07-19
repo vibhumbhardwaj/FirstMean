@@ -21,6 +21,7 @@ app.controller('loginController', function($rootScope, $scope){
                 //window.localStorage.name = res.data.user.name;
                 $scope.chill = false;
                 console.log('saved token as ' + window.localStorage.token);
+                window.open("/site/books", "_self");
             }
             if(res.data.removeCacheRequired)
                 window.localStorage.clear();
