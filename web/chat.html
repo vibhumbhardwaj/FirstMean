@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/style/app.css">
+        <script src="/scripts/angular.js"></script>
+        <script src="/scripts/booksApp.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/scripts/chatController.js"></script>
+    </head>
+    <body ng-app="booksApp" ng-controller="chatController">
+        <div class="w3-main w3-content w3-padding">
+            <textarea class="w3-input" ng-model="message" placeholder="Type in your message here."></textarea>
+            <span class="w3-button" ng-click="send()">Send</span>
+            <div ng-repeat="msg in messages track by $index">
+                Message: {{msg}}
+            </div>
+        </div>
+    </body>
+</html>
