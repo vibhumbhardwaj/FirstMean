@@ -19,7 +19,8 @@ app.controller('chatController', function ($rootScope, $scope) {
     socket.on('newAddition', function(msg) {
         $scope.messages.push(msg);
         $scope.$apply();
-        window.alert('new Message!');
+        if($scope.notificationEnabled)
+            window.alert('new Message!');
     })
 
     socket.on('update', function(msgs) {

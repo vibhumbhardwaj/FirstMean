@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
-var session = require('express-session');
+var session = require('express-session')({secret:"oye"});
 var cookieParser = require('cookie-parser');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //app.use(morgan('dev'));
 app.use(cookieParser('O yea mofo'));
-app.use(session({secret: "oye"}));
+app.use(session);
 
 app.use(express.static('./static'));
 /*
@@ -52,6 +52,7 @@ router.get('/',function(req,res){
 server.listen(80, function(){
     console.log('STARTED>');
 });
+
 
 /*
 var server = app.listen(80,function(){

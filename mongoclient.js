@@ -1,5 +1,13 @@
 var mongomodel = require('./mongomodel.js');
 
+
+var message = {
+    message: 'Hi Everyone',
+    sender: 'Vibhum',
+    userId: '5cd98398498498da',
+    room: '9floor',
+}
+
 var newBook = new mongomodel.Book({
     book: '2001: A Space Odyssey',
     author: 'Arhur C. Clarke',

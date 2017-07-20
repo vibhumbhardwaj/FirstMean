@@ -21,12 +21,17 @@
 
 
     </div>
-        <div class="w3-main w3-content w3-padding vb-main">
+        <div class="w3-main w3-content w3-padding vb-mobile">
+            <div class="w3-right">
+                Receive notifications for incoming messages <input type="checkbox" class="w3-check" ng-model="notificationEnabled">
+            </div>
             <textarea class="w3-input" ng-model="message" placeholder="Type in your message here."></textarea>
-            <span class="w3-button" ng-click="send()">Send</span>
+            <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br>
+            
             <div ng-repeat="msg in messages track by $index">
                 Message: {{msg}}
             </div>
         </div>
+        <link rel="import" href="/pageFooter.html">
     </body>
 </html>
