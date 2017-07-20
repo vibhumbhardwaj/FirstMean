@@ -9,36 +9,40 @@ var loggedInUser;
 
 router.use(function (req, res, next) {
     loggedInUser = req.session.user;
-    //next(); // JWT BYPASS. Also, you'll need to comment the rest of the stuff below for it to work.
+    if (loggedInUser) {
+        //next(); // JWT BYPASS. Also, you'll need to comment the rest of the stuff below for it to work.
 
-    if (!req.cookies) {
-        console.log('cookies not found.');
-        res.json({ sorry: true, regret: false });
-        return;
+        if (!req.cookies) {
+            console.log('cookies not found.');
+            res.json({ sorry: true, regret: false });
+            return;
 
-    }
-    var tokenFromCookies = req.cookies.Authorization;
-    console.log('[INFO]@SECURED ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method + ' --> ' + req.url.toString());
-    console.log('[INFO] Validating Token: ' + tokenFromCookies);
-    jwt.verify(tokenFromCookies, config.secretKey, function (err, decodedToken) {
-        if (err) {
-            console.log('[ERROR] Could not decode token. Token: ' + tokenFromCookies);
-            res.json({ success: false, message: 'token can\'t be verified, sorry.' });
         }
-        else {
-            console.log('[INFO] The User: ' + decodedToken);
-            console.log(decodedToken.user);
-            console.log(loggedInUser._id);
-            if (decodedToken.userId != loggedInUser._id) {
-                console.log('[ERROR] Token Compromised. Team, Fall Back.');
+        var tokenFromCookies = req.cookies.Authorization;
+        console.log('[INFO]@SECURED ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method + ' --> ' + req.url.toString());
+        console.log('[INFO] Validating Token: ' + tokenFromCookies);
+        jwt.verify(tokenFromCookies, config.secretKey, function (err, decodedToken) {
+            if (err) {
+                console.log('[ERROR] Could not decode token. Token: ' + tokenFromCookies);
                 res.json({ success: false, message: 'token can\'t be verified, sorry.' });
             }
             else {
-                console.log('[INFO] User Verified. Can do the secure journey.');
-                next();
+                console.log('[INFO] The User: ' + decodedToken);
+                if (decodedToken.userId != loggedInUser._id) {
+                    console.log('[ERROR] Token Compromised. Team, Fall Back.');
+                    res.json({ success: false, message: 'token can\'t be verified, sorry.' });
+                }
+                else {
+                    console.log('[INFO] User Verified. Can do the secure journey.');
+                    next();
+                }
             }
-        }
-    });
+        });
+    }
+    else{
+        console.log('[ERROR] User not found in session');
+        res.json({success:false, message:'User not signed in on server'});
+    }
 });
 
 
@@ -68,7 +72,7 @@ router.get('/getProspectList', function (req, res) {
 
 router.post('/returnTheBook', function (req, res) {
     var bookId = req.body.bookId;
-    var userId ;
+    var userId;
     if (bookId.match(config.mongoIdRegex).length == 1) {
         adapter.getBookDetail(bookId, function (err, book) {
             if (!err && book._doc.who_has_this) {
