@@ -19,7 +19,9 @@
     "jsonwebtoken": "7.4.1",
     "morgan": "1.8.1",
     "angular": "latest",
-    "socket.io" : "latest"
+    "socket.io" : "latest",
+    "atob" : "latest",
+    "socketio-jwt-auth" : "latest"
   }
 
 }

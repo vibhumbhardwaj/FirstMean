@@ -1,4 +1,5 @@
 var adapter = require('./mongoadapter.js');
+var atob = require('atob');
 
 var mapUserToBooks = function (books, user) {
     books.forEach(function (book) {
@@ -7,15 +8,54 @@ var mapUserToBooks = function (books, user) {
     return books;
 }
 
-var getIssueStatusForBooks = function(books){
-    books.forEach(function(book){
+var parseJwt = function (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(atob(base64));
+};
+
+var addChatRoom = function (token, chatRoom, userName) {
+    var chatRooms;
+    if (token)
+        chatRooms = parseJwt(token).allowedRooms;
+    else
+        chatRooms = [];
+
+    index = chatRooms.findIndex(function (ele) {
+        return ele.chatRoom == chatRoom;
+    });
+
+    if ( index < 0 ) {
+        chatRooms.push({chatRoom: chatRoom, userName: userName});
+    }
+
+    return chatRooms;
+
+}
+
+var isChatAllowed = function (user, chatRoom, password) {
+    var accessType = chatRoom.accessType;
+    if (accessType == 'private') {
+        userPresent = chatRoom.allowedUsers.findIndex(function (ele) {
+            return user._id == ele.userId;
+        });
+        if (userPresent == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+var getIssueStatusForBooks = function (books) {
+    books.forEach(function (book) {
         book = getIssueStatusForBook(book);
     });
     return book;
 }
 
-var getIssueStatusForBook = function(book){
-    if(book._doc.who_has_this[0])
+var getIssueStatusForBook = function (book) {
+    if (book._doc.who_has_this[0])
         book._doc.issued = true;
     else
         book._doc.issued = false;
@@ -37,7 +77,7 @@ var mapUserToBook = function (book, user) {
     if (user) {
         upvoteStatus = getUpVoteStatus(book, user);
     }
-    
+
     console.log('[INFO] Got this upvoteStatus--> ' + upvoteStatus + ' <--for book-->' + book.book + ' -- ' + book._id);
     book._doc.upvoteStatus = upvoteStatus;
     console.log('[INFO]. Book generated: \n' + book);
@@ -91,12 +131,12 @@ var getUpVoteStatus = function (book, user) {
     return returnval;
 }
 
-var getUserAfterReturn = function(user, bookId) {
-    bookToReturn = user.books_he_has.findIndex(function(ele){
+var getUserAfterReturn = function (user, bookId) {
+    bookToReturn = user.books_he_has.findIndex(function (ele) {
         return bookId == ele.bookId;
     })
-    user.books_he_has.splice(bookToReturn,1);
-    
+    user.books_he_has.splice(bookToReturn, 1);
+
     return user;
 }
 
@@ -110,7 +150,7 @@ var updateUserSession = function (req, userId) {
         req.session.user = updatedUser;
 
         //Why haven't I removed this code already?
-        if(req.session.user.books_he_has[0]) //null pointer if last is returned. fixed.
+        if (req.session.user.books_he_has[0]) //null pointer if last is returned. fixed.
             console.log('\n\n\n\n**********************\n' + req.session.user.books_he_has[0].bookName + '\n****************************\n\n\n')
         req.session.save();
     });
@@ -122,5 +162,7 @@ module.exports = {
     getUpVoteStatus: getUpVoteStatus,
     updateUserSession: updateUserSession,
     getUserAfterReturn: getUserAfterReturn,
-    getIssueStatusForBooks: getIssueStatusForBooks
+    getIssueStatusForBooks: getIssueStatusForBooks,
+    isChatAllowed: isChatAllowed,
+    addChatRoom: addChatRoom
 }

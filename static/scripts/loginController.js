@@ -4,7 +4,7 @@ app.controller('loginController', function($rootScope, $scope){
     
     $scope.loginUser = function(){
         if(!checkIfUserGood()) return;
-        datatosend = {username: $scope.username, password: $scope.password};
+        var datatosend = {username: $scope.username, password: $scope.password};
         $rootScope.http({
             method: 'POST',
             url: '/site/gateway/authenticate',

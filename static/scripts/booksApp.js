@@ -41,6 +41,19 @@ app.run(function ($rootScope, $http) {
         return token.userName;
     }
 
+    $rootScope.getNameForChat = function(chatRoom){
+        token = parseJwt(window.localStorage.chatToken);
+        allowedRooms = token.allowedRooms;
+        
+        index = allowedRooms.findIndex(function(ele){
+            return ele.chatRoom == chatRoom;
+        });
+        if(index < 0)
+            return $rootScope.getUserName();
+        else
+            return allowedRooms[index].userName;
+    }
+
     $rootScope.isAdmin = function(){
         token = parseJwt(window.localStorage.token);
         return token.admin;

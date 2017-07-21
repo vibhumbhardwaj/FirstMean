@@ -39,9 +39,33 @@ router.use(function (req, res, next) {
             }
         });
     }
-    else{
+    else {
         console.log('[ERROR] User not found in session');
-        res.json({success:false, message:'User not signed in on server'});
+        res.json({ success: false, message: 'User not signed in on server' });
+    }
+});
+
+router.post('/authoriseChatAccess', function (req, res) {
+    var chatRoom = req.body.chatRoom;
+    var password = req.body.password;
+    var token = req.body.token;
+    //hashing the password goes here.
+    if (chatRoom && password) {
+        adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
+            if (!(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
+                if (!err && serviceHelper.isChatAllowed(loggedInUser, chatRoomObject._doc)) {
+                    var chatRooms = serviceHelper.addChatRoom(token, chatRoom, loggedInUser.name);
+                    token = jwt.sign({ allowedRooms: chatRooms }, config.secretKey, { expiresIn: 1440 * 60 });
+                }
+                else {
+                    sendUnAuthorisedResponse(res, 'You cannot proceed further.');
+                }
+            }
+            else{
+                sendUnAuthorisedResponse(res, 'Password wrong');
+            }
+        })
+
     }
 });
 

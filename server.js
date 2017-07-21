@@ -5,20 +5,9 @@ var morgan = require('morgan');
 var session = require('express-session')({secret:"oye"});
 var cookieParser = require('cookie-parser');
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
 
-var messages = [];
 
-io.on('connection', function(socket){
-    console.log('............................im in here.......................');
-    socket.emit('update', messages);
-    socket.on('chat message', function(msg){
-        console.log('................saving message supposedly........................\n' + msg);
-        messages.push(msg);
-        socket.broadcast.emit('newAddition', msg);
-        console.log('updated messages sent to the client.');   
-    });
-});
+var io = require('./socketIOServer.js')(server);
 
 
 app.set('views', __dirname + '/web');

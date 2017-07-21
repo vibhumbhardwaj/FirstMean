@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/style/app.css">
+    <script src="/scripts/angular.js"></script>
+    <script src="/scripts/booksApp.js"></script>
+    <script src="/scripts/chatLoginController.js"></script>
+</head>
+
+<body ng-app="booksApp" ng-controller="chatLoginController">
+    <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
+        <div class="w3-left">
+            <span class="w3-button" ng-click="visitBooks()">BOOK-BOOK-BAKOOB</span>
+        </div>
+
+        <div class="w3-right">
+            <span class="w3-button">Other</span>
+            <span class="w3-button">Random</span>
+            <span class="w3-button">Buttons</span>
+            <span class="w3-button" ng-click="visitChat();"><b>CHAT</b></span>
+        </div>
+
+
+    </div>
+
+    <div class="w3-main w3-content w3-padding vb-main" >
+        <h1>Chat Room</h1>
+        <input type="text" ng-model="chatRoom" class="w3-input" placeholder="Enter chat room's name here."><br>
+        <input type="checkbox" class="w3-check" ng-model="private"> My Chat room is SSO enabled. [Requires logged in users]
+
+        <input type="text" class="w3-input" ng-model="userName" ng-disabled="private" ng-class="{'w3-disabled': private}" placeholder="Your Username for session">
+        <input type="password" ng-model="password" ng-blur="getChatToken()" class="w3-input" ng-class="{'w3-disabled': (private && !passwordRequired)}"
+            ng-disabled="(private && !passwordRequired)" placeholder="Then the password assigned to the chat room.">
+        <div ng-show="private"> <input type="checkbox" class="w3-check" ng-model="passwordRequired"> But it still requires another password
+        </div>
+
+
+
+        <br><span ng-if="chill"> User is already logged in. no need to panic.</span>
+        <br>
+        <br>
+        <i> Don't know of any to begin with? Jump straight to </i> <span class="w3-button" ng-click="gotoPublic()">public room</span>
+
+
+    </div>
+    <div class="w3-bottom w3-right">
+        <hr>Wabadubba dubdub
+    </div>
+</body>
+
+</html>
