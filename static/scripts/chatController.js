@@ -1,4 +1,4 @@
-app.controller('chatController', function ($rootScope, $scope) {
+app.controller('chatController', function ($rootScope, $scope, $window) {
     $scope.authorised = true;
     $scope.messages = [];
     var chatRoom = location.href.split("/").pop();
@@ -7,7 +7,6 @@ app.controller('chatController', function ($rootScope, $scope) {
     var socket = io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
     //socket.emit('newlyAdded', chatRoom);
     /**initialisation complete.**/
-
 
     $scope.send = function () {
         if ($scope.currentMessage) {
@@ -26,6 +25,13 @@ app.controller('chatController', function ($rootScope, $scope) {
     socket.on('newMessage', function (msg) {
         $scope.messages.push(msg);
         $scope.$apply();
+
+        if(!document.hasFocus())
+            if($scope.alertCount)
+                $scope.alertCount++;
+            else
+                $scope.alertCount = 1;
+
         if ($scope.notificationEnabled)
             window.alert('new Message!');
     });
@@ -39,6 +45,11 @@ app.controller('chatController', function ($rootScope, $scope) {
     socket.on('previousMessages', function (msg) {
         //msg.chatRoom
         $scope.messages = msg.messages;
+        $scope.messages.push({userName: '', message: '::::::::::::::::::::::::::::::::::  New Messages >>>'});
         $scope.$apply();
     });
+
+    $window.onfocus = function(){
+        delete $scope.alertCount;
+    }
 });
