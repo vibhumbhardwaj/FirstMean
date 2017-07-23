@@ -33,16 +33,20 @@ app.run(function ($rootScope, $http) {
 
     $rootScope.getUserId = function(){
         token = parseJwt(window.localStorage.token);
-        return token.userId;
+        if(token)
+            return token.userId;
     }
 
     $rootScope.getUserName = function(){
         token = parseJwt(window.localStorage.token);
-        return token.userName;
+        if(token)
+            return token.userName;
     }
 
     $rootScope.getNameForChat = function(chatRoom){
         token = parseJwt(window.localStorage.chatToken);
+        if(!token)
+            return;
         allowedRooms = token.allowedRooms;
         
         index = allowedRooms.findIndex(function(ele){
@@ -56,10 +60,13 @@ app.run(function ($rootScope, $http) {
 
     $rootScope.isAdmin = function(){
         token = parseJwt(window.localStorage.token);
-        return token.admin;
+        if(token)
+            return token.admin;
     }
 
     var parseJwt = function (token) {
+        if(!token)
+            return;
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         return JSON.parse(window.atob(base64));

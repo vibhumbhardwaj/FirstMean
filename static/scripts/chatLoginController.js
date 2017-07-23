@@ -25,7 +25,7 @@ app.controller('chatLoginController', function ($rootScope, $scope) {
                 datatosend = { chatRoom: $scope.chatRoom, password: $scope.password, token: token };
             else if (!$scope.passwordRequired && $scope.chatRoom)
                 datatosend = { chatRoom: $scope.chatRoom, token: token };
-            url = '/site/gateway/authoriseChatAccess';
+            url = '/site/gateway/secure/authoriseChatAccess';
         }
 
         if (datatosend)
@@ -40,9 +40,13 @@ app.controller('chatLoginController', function ($rootScope, $scope) {
                     window.open('/site/chat/' + $scope.chatRoom, '_self');
                 }
                 else {
+                    $scope.invalid = true;
+                    $scope.errorMessage = res.data.message;
                     console.log('coudn\'t get the token for chat. sorry.');
                 }
             }, function failure(err) {
+                $scope.invalid = true;
+                $scope.errorMessage = 'Something Really bad happened at the backend. I\'m sorry';
                 console.log('oh man!!');
             })
     }

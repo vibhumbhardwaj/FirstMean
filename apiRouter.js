@@ -86,18 +86,18 @@ router.post('/authoriseChatAccess', function (req, res) {
     //hashing the password goes here.
     if (chatRoom && password || chatRoom=='public' && userName) {
         adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
-            if (!(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
+            if (chatRoomObject && !(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
                 if (!err && chatRoomObject._doc.accessType == 'public') {
                     var chatRooms = serviceHelper.addChatRoom(token, chatRoom, userName);
                     token = jwt.sign({ allowedRooms: chatRooms }, config.secretKey, { expiresIn: 1440 * 60 });
                     res.json({success: true, token: token});
                 }
                 else {
-                    sendUnAuthorisedResponse(res, 'You cannot proceed further.');
+                    serviceHelper.sendUnAuthorisedResponse(res, 'You cannot proceed further.');
                 }
             }
             else
-                sendUnAuthorisedResponse(res, 'Password wrong');
+                serviceHelper.sendUnAuthorisedResponse(res, 'Password wrong');
         })
     }
 });

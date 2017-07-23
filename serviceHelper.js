@@ -9,6 +9,8 @@ var mapUserToBooks = function (books, user) {
 }
 
 var parseJwt = function (token) {
+    if(!token)
+        return;
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(atob(base64));
@@ -156,6 +158,13 @@ var updateUserSession = function (req, userId) {
     });
 }
 
+var sendUnAuthorisedResponse = function(res, message) {
+    if (!message)
+        message = 'I don\'t like your intentions mate. I\'m not sending you any data.';
+    res.json({ success: false, message: message, data: null });
+    //res.end();
+}
+
 module.exports = {
     mapUserToBooks: mapUserToBooks,
     mapUserToBook: mapUserToBook,
@@ -164,5 +173,7 @@ module.exports = {
     getUserAfterReturn: getUserAfterReturn,
     getIssueStatusForBooks: getIssueStatusForBooks,
     isChatAllowed: isChatAllowed,
-    addChatRoom: addChatRoom
+    addChatRoom: addChatRoom,
+    parseJwt: parseJwt,
+    sendUnAuthorisedResponse: sendUnAuthorisedResponse
 }

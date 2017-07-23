@@ -1,39 +1,44 @@
 app.controller('chatController', function ($rootScope, $scope) {
-
+    $scope.authorised = true;
     $scope.messages = [];
     var chatRoom = location.href.split("/").pop();
     $scope.userName = $rootScope.getNameForChat(chatRoom);
 
-    var socket = io.connect({ query: 'auth_token=' + window.localStorage.chatToken });
-    socket.emit('newlyAdded', $scope.userName);
+    var socket = io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
+    //socket.emit('newlyAdded', chatRoom);
     /**initialisation complete.**/
 
 
     $scope.send = function () {
-        if ($scope.msg.message) {
-            $scope.msg.chatRoom = chatRoom;
-            $scope.msg.userName = $scope.userName;
-            socket.emit('chat message', $scope.msg);
-            $scope.messages.push($scope.msg);
-            $scope.message = "";
+        if ($scope.currentMessage) {
+            var msg = {
+                message: $scope.currentMessage,
+                chatRoom: chatRoom,
+                userName: $scope.userName
+            }
+            socket.emit('chat message', msg);
+            $scope.messages.push(msg);
+            $scope.currentMessage = "";
         }
     }
-    socket.on('chat message', function (msg) {
-        /*  var li = document.createElement("li");
-          li.appendChild(document.createTextNode(msg));
-          document.getElementById("messages").appendChild(li);*/
-        console.log('message received.');
-    });
 
-    socket.on('newAddition', function (msg) {
+
+    socket.on('newMessage', function (msg) {
         $scope.messages.push(msg);
         $scope.$apply();
         if ($scope.notificationEnabled)
             window.alert('new Message!');
     });
 
-    socket.on('update', function (msgs) {
-        $scope.messages = msgs;
+    socket.on('unauthorised', function(err){
+       $scope.authorised = false;
+       document.getElementById('errorMessage').innerHTML = err;
+       $scope.$apply(); 
+    });
+
+    socket.on('previousMessages', function (msg) {
+        //msg.chatRoom
+        $scope.messages = msg.messages;
         $scope.$apply();
     });
 });

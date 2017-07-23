@@ -1,16 +1,18 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/style/app.css">
-        <script src="/scripts/angular.js"></script>
-        <script src="/scripts/booksApp.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/scripts/chatController.js"></script>
-    </head>
-    <body ng-app="booksApp" ng-controller="chatController">
-                <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
-            <div class="w3-left">
-                <span class="w3-button" ng-click="visitBooks()">BOOK-BOOK-BAKOOB</span>
-            </div>
+
+<head>
+    <link rel="stylesheet" href="/style/app.css">
+    <script src="/scripts/angular.js"></script>
+    <script src="/scripts/booksApp.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/chatController.js"></script>
+</head>
+
+<body ng-app="booksApp" ng-controller="chatController">
+    <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
+        <div class="w3-left">
+            <span class="w3-button" ng-click="visitBooks()">BOOK-BOOK-BAKOOB</span>
+        </div>
 
         <div class="w3-right">
             <span class="w3-button">Other</span>
@@ -21,17 +23,26 @@
 
 
     </div>
-        <div class="w3-main w3-content w3-padding vb-mobile">
-            <div class="w3-right">
-                Receive notifications for incoming messages <input type="checkbox" class="w3-check" ng-model="notificationEnabled">
-            </div>
-            <textarea class="w3-input" ng-model="msg.message" placeholder="Type in your message here."></textarea>
-            <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br>
-            
-            <div ng-repeat="msg in messages track by $index">
-                <b>{{msg.userName}}</b>: {{msg.message}}
-            </div>
+    <div class="w3-main w3-content w3-padding vb-main" ng-show="authorised">
+        <form ng-submit="send()">
+        <div class="w3-right">
+            Receive notifications for incoming messages <input type="checkbox" class="w3-check" ng-model="notificationEnabled">
         </div>
-        <link rel="import" href="/pageFooter.html">
-    </body>
+        <h3>{{userName}}</h3>
+            <input type="text" autocomplete="off" class="w3-input" ng-model="currentMessage" placeholder="Type in your message here."></textarea>
+        
+        <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br>
+
+        <div ng-repeat="msg in messages track by $index">
+            <b>{{msg.userName}}</b>: {{msg.message}}
+        </div>
+        </form>
+    </div>
+
+    <div class="w3-main w3-content w3-padding vb-main" ng-hide="authorised" id="errorMessage">
+        {{errorMessage}}
+    </div>
+
+</body>
+
 </html>

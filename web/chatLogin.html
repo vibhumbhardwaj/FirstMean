@@ -24,16 +24,18 @@
     </div>
 
     <div class="w3-main w3-content w3-padding vb-main" >
-        <h1>Chat Room</h1>
+        
+        <form ng-submit="getChatToken()">
+        <div><h1>Chat Room</h1></div><div ng-show="invalid" style="color: red"><h5>{{errorMessage}}</h5></div>
         <input type="text" ng-model="chatRoom" class="w3-input" placeholder="Enter chat room's name here."><br>
-        <input type="checkbox" class="w3-check" ng-model="private"> My Chat room is SSO enabled. [Requires logged in users]
+        <input type="checkbox" class="w3-check" ng-model="private"> My Chat room is SSO enabled. [Requires user registration]
 
         <input type="text" class="w3-input" ng-model="userName" ng-disabled="private" ng-class="{'w3-disabled': private}" placeholder="Your Username for session">
-        <input type="password" ng-model="password" ng-blur="getChatToken()" class="w3-input" ng-class="{'w3-disabled': (private && !passwordRequired)}"
+        <input type="password" ng-model="password"   class="w3-input" ng-class="{'w3-disabled': (private && !passwordRequired)}"
             ng-disabled="(private && !passwordRequired)" placeholder="Then the password assigned to the chat room.">
         <div ng-show="private"> <input type="checkbox" class="w3-check" ng-model="passwordRequired"> But it still requires another password
         </div>
-
+<input type="submit" class="w3-button" value="Request Access"></input>
 
 
         <br><span ng-if="chill"> User is already logged in. no need to panic.</span>
@@ -41,11 +43,10 @@
         <br>
         <i> Don't know of any to begin with? Jump straight to </i> <span class="w3-button" ng-click="gotoPublic()">public room</span>
 
-
+        </form>
+    
     </div>
-    <div class="w3-bottom w3-right">
-        <hr>Wabadubba dubdub
-    </div>
+    
 </body>
 
 </html>
