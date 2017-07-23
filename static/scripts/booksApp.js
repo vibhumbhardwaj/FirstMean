@@ -43,6 +43,13 @@ app.run(function ($rootScope, $http) {
             return token.userName;
     }
 
+    $rootScope.getAllowedRooms = function(){
+        token = parseJwt(window.localStorage.chatToken);
+        if(!token)
+            return;
+        return allowedRooms;
+    }
+
     $rootScope.getNameForChat = function(chatRoom){
         token = parseJwt(window.localStorage.chatToken);
         if(!token)

@@ -4,9 +4,22 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
     var chatRoom = location.href.split("/").pop();
     $scope.userName = $rootScope.getNameForChat(chatRoom);
 
-    var socket = io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
-    //socket.emit('newlyAdded', chatRoom);
+
+    var socketPrimary = io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
+    //socketPrimary.emit('newlyAdded', chatRoom);
     /**initialisation complete.**/
+    var socketArray = [];
+
+    $scope.allowedRooms = $rootScope.getAllowedRooms();
+    allowedRooms.forEach(function (room){
+        socketArray.push( io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + room.chatRoom, forceNew: true }) );
+    });
+
+    socketArray.forEach(function(socket){
+        socket.on('newMessage', function(msg){
+            // do stuff here like adding *s alongside their names or whatever
+        })
+    });
 
     $scope.send = function () {
         if ($scope.currentMessage) {
@@ -15,14 +28,14 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
                 chatRoom: chatRoom,
                 userName: $scope.userName
             }
-            socket.emit('chat message', msg);
+            socketPrimary.emit('chat message', msg);
             $scope.messages.push(msg);
             $scope.currentMessage = "";
         }
     }
 
 
-    socket.on('newMessage', function (msg) {
+    socketPrimary.on('newMessage', function (msg) {
         $scope.messages.push(msg);
         $scope.$apply();
 
@@ -36,13 +49,13 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
             window.alert('new Message!');
     });
 
-    socket.on('unauthorised', function(err){
+    socketPrimary.on('unauthorised', function(err){
        $scope.authorised = false;
        document.getElementById('errorMessage').innerHTML = err;
        $scope.$apply(); 
     });
 
-    socket.on('previousMessages', function (msg) {
+    socketPrimary.on('previousMessages', function (msg) {
         //msg.chatRoom
         $scope.messages = msg.messages;
         $scope.messages.push({userName: '', message: '::::::::::::::::::::::::::::::::::  New Messages >>>'});
