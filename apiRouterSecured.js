@@ -39,11 +39,6 @@ router.use(function (req, res, next) {
             }
         });
     }
-<<<<<<< HEAD
-    else{
-        console.log('[ERROR] User not found in session');
-        res.json({success:false, message:'User not signed in on server'});
-=======
     else {
         console.log('[ERROR] User not found in session');
         res.json({ success: false, message: 'User not signed in on server' });
@@ -71,7 +66,6 @@ router.post('/authoriseChatAccess', function (req, res) {
             }
         })
 
->>>>>>> testing
     }
 });
 
