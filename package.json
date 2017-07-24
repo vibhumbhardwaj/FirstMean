@@ -18,7 +18,10 @@
     "mongoose" : "latest",
     "jsonwebtoken": "7.4.1",
     "morgan": "1.8.1",
-    "angular": "latest"
+    "angular": "latest",
+    "socket.io" : "latest",
+    "atob" : "latest",
+    "socketio-jwt-auth" : "latest"
   }
 
 }

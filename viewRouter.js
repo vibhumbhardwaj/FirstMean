@@ -36,4 +36,12 @@ router.get('/yoman', function(req, res){
     res.render('amazon.html');
 });
 
+router.get('/chat', function(req, res){
+    res.render('chatLogin.html');
+});
+
+router.get('/chat/:chatRoom', function(req,res){
+    res.render('chat.html');
+});
+
 module.exports = router;

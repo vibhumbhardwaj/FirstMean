@@ -29,6 +29,18 @@ var getAllUsers = function(bc) {
     })
 }
 
+var getChatRooms = function(bc) {
+    model.ChatRoom.find(function(err, chatRooms){
+        bc(err, chatRooms);
+    })
+}
+
+var findChatRoom = function (findthis, bc) {
+    model.ChatRoom.findOne(findthis, function (err, chatRoom){
+        bc(err, chatRoom);
+    })
+}
+
 var saveUserOnly = function (book, user, bc) {
     model.User.findByIdAndUpdate(user._id, user, function (err, updatedUser) {
         if (err) {
@@ -72,5 +84,7 @@ module.exports = {
     getUser: getUser,
     getBookDetail: getBookDetail,
     saveToDB: saveToDB,
-    getAllUsers: getAllUsers
+    getAllUsers: getAllUsers,
+    findChatRoom: findChatRoom,
+    getChatRooms: getChatRooms
 }

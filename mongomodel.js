@@ -49,10 +49,22 @@ var schemaForBooks = new Schema({
     downvoted_by_users: [inlineUserSchema]
 });
 
+var schemaForChatRooms = new Schema({
+    chatRoom: {type: String, unique: true},
+    password: String,
+    accessType: String,
+    allowedUsers: [inlineUserSchema],
+    showPrevious: Boolean,
+    currentUsers: [],
+    messages: []
+})
+
+var ChatRoom = mongoose.model('ChatRoom', schemaForChatRooms);
 var Book = mongoose.model('Book', schemaForBooks);
 var User = mongoose.model('User', schemaForUsers);
 
 module.exports = {
     User: User,
-    Book: Book
+    Book: Book,
+    ChatRoom: ChatRoom
 };

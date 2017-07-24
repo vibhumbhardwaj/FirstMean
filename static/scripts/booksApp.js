@@ -10,6 +10,10 @@ app.run(function ($rootScope, $http) {
             $rootScope.http.defaults.headers.common.Authorization = window.localStorage.token;
     }
 
+    $rootScope.visitChat = function(){
+        window.open('/site/chat', '_self');
+    }
+
     $rootScope.visitBooks = function(){
         window.open('/site/books');
     }
@@ -29,20 +33,47 @@ app.run(function ($rootScope, $http) {
 
     $rootScope.getUserId = function(){
         token = parseJwt(window.localStorage.token);
-        return token.userId;
+        if(token)
+            return token.userId;
     }
 
     $rootScope.getUserName = function(){
         token = parseJwt(window.localStorage.token);
-        return token.userName;
+        if(token)
+            return token.userName;
+    }
+
+    $rootScope.getAllowedRooms = function(){
+        token = parseJwt(window.localStorage.chatToken);
+        if(!token)
+            return;
+        return allowedRooms;
+    }
+
+    $rootScope.getNameForChat = function(chatRoom){
+        token = parseJwt(window.localStorage.chatToken);
+        if(!token)
+            return;
+        allowedRooms = token.allowedRooms;
+        
+        index = allowedRooms.findIndex(function(ele){
+            return ele.chatRoom == chatRoom;
+        });
+        if(index < 0)
+            return $rootScope.getUserName();
+        else
+            return allowedRooms[index].userName;
     }
 
     $rootScope.isAdmin = function(){
         token = parseJwt(window.localStorage.token);
-        return token.admin;
+        if(token)
+            return token.admin;
     }
 
     var parseJwt = function (token) {
+        if(!token)
+            return;
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         return JSON.parse(window.atob(base64));

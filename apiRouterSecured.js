@@ -39,9 +39,39 @@ router.use(function (req, res, next) {
             }
         });
     }
+<<<<<<< HEAD
     else{
         console.log('[ERROR] User not found in session');
         res.json({success:false, message:'User not signed in on server'});
+=======
+    else {
+        console.log('[ERROR] User not found in session');
+        res.json({ success: false, message: 'User not signed in on server' });
+    }
+});
+
+router.post('/authoriseChatAccess', function (req, res) {
+    var chatRoom = req.body.chatRoom;
+    var password = req.body.password;
+    var token = req.body.token;
+    //hashing the password goes here.
+    if (chatRoom && password) {
+        adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
+            if (chatRoomObject && !(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
+                if (!err && serviceHelper.isChatAllowed(loggedInUser, chatRoomObject._doc)) {
+                    var chatRooms = serviceHelper.addChatRoom(token, chatRoom, loggedInUser.name);
+                    token = jwt.sign({ allowedRooms: chatRooms }, config.secretKey, { expiresIn: 1440 * 60 });
+                }
+                else {
+                    serviceHelper.sendUnAuthorisedResponse(res, 'You cannot proceed further.');
+                }
+            }
+            else{
+                serviceHelper.sendUnAuthorisedResponse(res, 'Chatroom/Password combination wrong');
+            }
+        })
+
+>>>>>>> testing
     }
 });
 
@@ -87,20 +117,20 @@ router.post('/returnTheBook', function (req, res) {
                                 res.json({ success: true, message: 'Book Returned successfully', user: req.session.user });
                             }
                             else
-                                sendUnAuthorisedResponse(res, 'Contact Customer Support, or not.')
+                                serviceHelper.sendUnAuthorisedResponse(res, 'Contact Customer Support, or not.')
 
                         });
                     }
                     else
-                        sendUnAuthorisedResponse(res, 'Problem with user provided');
+                        serviceHelper.sendUnAuthorisedResponse(res, 'Problem with user provided');
                 })
             }
             else
-                sendUnAuthorisedResponse(res, 'Problem with Book Provided');
+                serviceHelper.sendUnAuthorisedResponse(res, 'Problem with Book Provided');
         })
     }
     else
-        sendUnAuthorisedResponse(res);
+        serviceHelper.sendUnAuthorisedResponse(res);
 });
 
 router.post('/issueTheBook', function (req, res) {
@@ -146,20 +176,20 @@ router.post('/issueTheBook', function (req, res) {
                             }
                             else {
                                 console.log('[error] trace- ' + err);
-                                sendUnAuthorisedResponse(res, 'Contact customer support, or not.');
+                                serviceHelper.sendUnAuthorisedResponse(res, 'Contact customer support, or not.');
                             }
                         })
                     }
                     else
-                        sendUnAuthorisedResponse(res, 'This user just cannot.');
+                        serviceHelper.sendUnAuthorisedResponse(res, 'This user just cannot.');
                 })
             }
             else
-                sendUnAuthorisedResponse(res, 'Problem with the book provided.');
+                serviceHelper.sendUnAuthorisedResponse(res, 'Problem with the book provided.');
         });
     }
     else
-        sendUnAuthorisedResponse(res);
+        serviceHelper.sendUnAuthorisedResponse(res);
 })
 
 
@@ -212,7 +242,7 @@ router.post('/toggleUpvote', function (req, res) {
         });
     }
     else {
-        sendUnAuthorisedResponse(res);
+        serviceHelper.sendUnAuthorisedResponse(res);
         return;
     }
 });
@@ -222,12 +252,7 @@ function handleUpvoteError(err) {
     res.json({ success: false, message: 'Sorry, couldn\'t upvote.' });
 }
 
-function sendUnAuthorisedResponse(res, message) {
-    if (!message)
-        message = 'I don\'t like your intentions mate. I\'m not sending you any data.';
-    res.json({ success: false, message: message, data: null });
-    //res.end();
-}
+
 
 
 module.exports = router;
