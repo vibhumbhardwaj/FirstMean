@@ -2,24 +2,41 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
     $scope.authorised = true;
     $scope.messages = [];
     var chatRoom = location.href.split("/").pop();
+    var primaryIndex;
     $scope.userName = $rootScope.getNameForChat(chatRoom);
 
 
-    var socketPrimary = io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
+    //var socketPrimary = io({ 'chatRoom': chatRoom, query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
     //socketPrimary.emit('newlyAdded', chatRoom);
     /**initialisation complete.**/
     var socketArray = [];
 
     $scope.allowedRooms = $rootScope.getAllowedRooms();
-    allowedRooms.forEach(function (room){
-        socketArray.push( io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + room.chatRoom, forceNew: true }) );
+    $scope.allowedRooms.forEach(function (room, index){
+        if(room.chatRoom == chatRoom)
+            primaryIndex = index;
+        socketArray.push( {index: index, chatRoom: room.chatRoom, socket: io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + room.chatRoom, forceNew: true }) });
     });
 
-    socketArray.forEach(function(socket){
-        socket.on('newMessage', function(msg){
-            // do stuff here like adding *s alongside their names or whatever
-        })
+    socketArray.forEach(function(socketObject){
+        socketObject.socket.on('newMessage', function(msg){
+            console.log('new message in ' + socketObject.chatRoom + ' --> ' + msg.message);
+            if(socketObject.index != primaryIndex){
+                $scope.allowedRooms[socketObject.index].count ++;
+                $scope.$apply();
+                document.getElementById('chatSideBar').style.display = 'none';
+                document.getElementById('chatSideBar').style.display = 'block';
+            }
+        });
     });
+
+    $scope.toggleSideBar = function(){
+        var sidebar = document.getElementById('chatSideBar');
+        if(sidebar.style.display == 'none')
+            sidebar.style.display = 'block';
+        else
+            sidebar.style.display = 'none';
+    }
 
     $scope.send = function () {
         if ($scope.currentMessage) {
@@ -28,14 +45,14 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
                 chatRoom: chatRoom,
                 userName: $scope.userName
             }
-            socketPrimary.emit('chat message', msg);
+            socketArray[primaryIndex].socket.emit('chat message', msg);
             $scope.messages.push(msg);
             $scope.currentMessage = "";
         }
     }
 
 
-    socketPrimary.on('newMessage', function (msg) {
+    socketArray[primaryIndex].socket.on('newMessage', function (msg) {
         $scope.messages.push(msg);
         $scope.$apply();
 
@@ -49,13 +66,13 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
             window.alert('new Message!');
     });
 
-    socketPrimary.on('unauthorised', function(err){
+    socketArray[primaryIndex].socket.on('unauthorised', function(err){
        $scope.authorised = false;
        document.getElementById('errorMessage').innerHTML = err;
        $scope.$apply(); 
     });
 
-    socketPrimary.on('previousMessages', function (msg) {
+    socketArray[primaryIndex].socket.on('previousMessages', function (msg) {
         //msg.chatRoom
         $scope.messages = msg.messages;
         $scope.messages.push({userName: '', message: '::::::::::::::::::::::::::::::::::  New Messages >>>'});

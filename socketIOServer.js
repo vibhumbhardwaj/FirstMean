@@ -52,7 +52,7 @@ module.exports = function (server) {
             socket.disconnect(true);
         }
 
-        console.log('............................im in here.......................' + chatRoom);
+        console.log(userName + '............................im in here.......................' + chatRoom);
 
         // socket.on('newlyAdded', function (chatRoom) {
         //     var index = socketHelper.getRoomIndex(allowedRooms, chatRoom); // will give username if authorised

@@ -9,33 +9,45 @@
 </head>
 
 <body ng-app="booksApp" ng-controller="chatController">
+
     <div class="w3-top vb-parent" style="background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
         <div class="w3-left">
-            <span class="w3-button" ng-click="visitBooks()">BOOK-BOOK-BAKOOB</span>
+            <span class="w3-button" ng-click="visitChat()"><b>Join New Room</b></span>
         </div>
 
         <div class="w3-right">
             <span class="w3-button">Other</span>
             <span class="w3-button">Random</span>
             <span class="w3-button">Buttons</span>
-            <span class="w3-button" ng-click="visitChat();"><b>CHAT</b></span>
+            <span class="w3-button" ng-click="toggleSideBar();"><b>Toggle Sidebar</b></span>
         </div>
 
 
     </div>
+
+    <div id="chatSideBar" class="w3-animate-right w3-right" style="display: block; height: calc(100% - 40px)">
+        <b>Active Rooms </b><br>
+        <ul class="w3-ul w3-hoverable w3-btn" style="width: 100%">
+        <li ng-repeat="room in allowedRooms">
+            {{room.chatRoom}} <b>{{room.count}}</b>
+        </li>
+        </ul>
+    </div>
+
     <div class="w3-main w3-content w3-padding vb-main" ng-show="authorised">
         <form ng-submit="send()">
-        <div class="w3-right">
-            Receive notifications for incoming messages <input type="checkbox" class="w3-check" ng-model="notificationEnabled">
-        </div>
-        <h3>{{userName}}</h3>
+            <div class="w3-right">
+                Receive notifications for incoming messages <input type="checkbox" class="w3-check" ng-model="notificationEnabled">
+            </div>
+            <h3>{{userName}}</h3>
             <input type="text" autocomplete="off" class="w3-input" ng-model="currentMessage" placeholder="Type in your message here."></textarea>
-        
-        <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br>
 
-        <div ng-repeat="msg in messages track by $index">
-            <b>{{msg.userName}}</b>: {{msg.message}}
-        </div>
+            <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br>
+
+            <div ng-repeat="msg in messages | orderBy:'+':true track by $index">
+                <b>{{msg.userName}}</b>: {{msg.message}}
+            </div>
+
         </form>
     </div>
 

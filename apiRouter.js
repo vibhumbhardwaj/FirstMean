@@ -85,6 +85,7 @@ router.post('/authoriseChatAccess', function (req, res) {
     var token = req.body.token;
     //hashing the password goes here.
     if (chatRoom && password || chatRoom=='public' && userName) {
+        chatRoom = chatRoom.toLowerCase();
         adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
             if (chatRoomObject && !(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
                 if (!err && chatRoomObject._doc.accessType == 'public') {

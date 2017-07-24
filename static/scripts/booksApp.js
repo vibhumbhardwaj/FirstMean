@@ -47,6 +47,9 @@ app.run(function ($rootScope, $http) {
         token = parseJwt(window.localStorage.chatToken);
         if(!token)
             return;
+        allowedRooms.forEach(function(element) {
+            element.count = 0;
+        }, this);
         return allowedRooms;
     }
 
