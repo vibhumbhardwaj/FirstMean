@@ -75,7 +75,7 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
     socketArray[primaryIndex].socket.on('previousMessages', function (msg) {
         //msg.chatRoom
         $scope.messages = msg.messages;
-        $scope.messages.push({userName: '', message: '::::::::::::::::::::::::::::::::::  New Messages >>>'});
+        $scope.messages.push({userName: '', message: '::::::::::::::::::::::::::::::::::  Previous Messages >>>'});
         $scope.$apply();
     });
 
