@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var adapter = require('./mongoadapter');
 var config = require('./config.js');
 var serviceHelper = require('./serviceHelper.js');
+var request = require('request');
 
 var findthis = {};
 
@@ -11,6 +12,37 @@ var findthis = {};
 router.use(function (req, res, next) {
     console.log('[INFO]@API ' + req.sessionID + ' @ time: ' + new Date().toLocaleTimeString() + ' accessed this page:  ' + req.method + ' --> ' + req.url.toString());
     next();
+})
+
+
+router.get('/memeSearch', function (req, res) {
+    console.log('[INFO] initiating meme search');
+    var options;
+    var resArray = [];
+    if (req.query.q && req.query.q.match(config.alphaNumericRegex).length == 1)
+        options = {
+            url: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=' + req.query.q + '%20meme&aspect=square',
+            method: 'GET',
+            headers: { 'Ocp-Apim-Subscription-Key': config.ImageAPIKey }
+        };
+    else{
+        res.json({success: false, message: 'You know what you\'re sending. Right?'});
+    }    
+    if(options)
+        request(options, function(err, response){
+            //will only give out 5 images. or 10 maybe?
+            if(!err && response.statusCode == 200){
+                var result = JSON.parse(response.body).value;
+                for(i =0 ; i<5; i++)
+                    resArray.push(result[i].thumbnailUrl);
+                res.json({success:true, data: resArray});
+                console.log('[INFO] MEMEs sent to the client.');
+            }
+            else{
+                console.log('[ERROR] trace- ' + err  + '\nStatus code: ' + response.statusCode);
+                res.json({success: false, message: 'Couldn\'t find images. Sorry.'});
+            }
+        });
 })
 
 
@@ -22,7 +54,7 @@ router.get('/logout', function (req, res) {
     if (!req.session)
         res.send({ success: true, message: 'logout complete' });
     else
-        console.log('please dont print please. por favor. Sil Vous Plait !!!!');
+        console.log('[ERROR] @LOGOUT--> please dont print please. por favor. Sil Vous Plait !!!!');
 });
 
 router.get('/books/:id', function (req, res) {
@@ -84,14 +116,14 @@ router.post('/authoriseChatAccess', function (req, res) {
     var password = req.body.password;
     var token = req.body.token;
     //hashing the password goes here.
-    if (chatRoom && password || chatRoom=='public' && userName) {
+    if (chatRoom && password || chatRoom == 'public' && userName) {
         chatRoom = chatRoom.toLowerCase();
         adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
             if (chatRoomObject && !(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
                 if (!err && chatRoomObject._doc.accessType == 'public') {
                     var chatRooms = serviceHelper.addChatRoom(token, chatRoom, userName);
                     token = jwt.sign({ allowedRooms: chatRooms }, config.secretKey, { expiresIn: 1440 * 60 });
-                    res.json({success: true, token: token});
+                    res.json({ success: true, token: token });
                 }
                 else {
                     serviceHelper.sendUnAuthorisedResponse(res, 'You cannot proceed further.');

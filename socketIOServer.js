@@ -2,9 +2,9 @@ var socketAuth = require('socketio-jwt-auth');
 var config = require('./config.js');
 var socketHelper = require('./socketHelper.js');
 
+var chatRooms = socketHelper.initialiseChatRooms();
 module.exports = function (server) {
     var io = require('socket.io')(server);
-    var chatRooms = socketHelper.initialiseChatRooms();
 
     io.use(socketAuth.authenticate({
         secret: config.secretKey,

@@ -28,13 +28,25 @@
     <div id="chatSideBar" class="w3-animate-right w3-right" style="display: block; height: calc(100% - 40px)">
         <b>Active Rooms </b><br>
         <ul class="w3-ul w3-hoverable w3-btn" style="width: 100%">
-        <li ng-repeat="room in allowedRooms">
-            {{room.chatRoom}} <b>{{room.count}}</b>
-        </li>
+            <li ng-repeat="room in allowedRooms">
+                {{room.chatRoom}} <b>{{room.count}}</b>
+            </li>
         </ul>
     </div>
 
-    <div class="w3-main w3-content w3-padding vb-main" ng-show="authorised">
+
+
+    <div class="w3-main w3-content w3-padding vb-main" ng-show="authorised" style="position: relative">
+        <div id="memeDiv" class="w3-animate-left w3-left" item-width="50%">
+            <form ng-submit="memeSearch()">
+                <input type="text" ng-model="memeInput">
+            </form>
+            <ul class="w3-ul">
+                <li ng-repeat="image in imageResult">
+                    <img ng-src="{{image}}" ng-click="send(true)">
+                </li>
+            </ul>
+        </div>
         <form ng-submit="send()">
             <div class="w3-right">
                 Receive notifications for incoming messages <input type="checkbox" class="w3-check" ng-model="notificationEnabled">
