@@ -19,7 +19,7 @@ router.get('/memeSearch', function (req, res) {
     console.log('[INFO] initiating meme search');
     var options;
     var resArray = [];
-    if (req.query.q && req.query.q.match(config.alphaNumericRegex).length == 1)
+    if (req.query.q && req.query.q.match(config.searchQueryRegex).length == 1)
         options = {
             url: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=' + req.query.q + '%20meme&aspect=square',
             method: 'GET',
