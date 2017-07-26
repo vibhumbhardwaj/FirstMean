@@ -19,10 +19,32 @@ router.post('/createRoom', function(req, res){
     
     var newRoom = req.body.chatRoom;
     if(newRoom){
+        var private = newRoom.private;
         console.log('[INFO] initialising chat room creation--> ' + newRoom.chatRoom);
-        if(newRoom.chatRoom);
+        if(newRoom.chatRoom && (newRoom.password || private)){
+            if(!newRoom.showPrevious){
+                newRoom.showPrevious = false;
+                console.log('[INFO] Setting show Previous messages to default value of false because none was provided.');
+            }
+            if(!private || (allowedUsers && allowedUsers.length > 1 )){
+                adapter.createChatRoom(newRoom, function(err, response){
+                    if(!err && response.chatRoom == newRoom.chatRoom){
+                        res.json({success: true});
+                    }
+                    else
+                        serviceHelper.sendUnAuthorisedResponse('Couldn\'t create a new chat room into the database. Most Probably, the name is already taken.');
+                });
+            }
+            else
+                serviceHelper.sendUnAuthorisedResponse();
+        }
+        else
+            serviceHelper.sendUnAuthorisedResponse();
     }
-})
+    else
+        serviceHelper.sendUnAuthorisedResponse('WTF Dude, at least send something!!');
+});
+
 
 
 router.get('/memeSearch', function (req, res) {
