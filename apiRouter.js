@@ -15,13 +15,23 @@ router.use(function (req, res, next) {
 })
 
 
+router.post('/createRoom', function(req, res){
+    
+    var newRoom = req.body.chatRoom;
+    if(newRoom){
+        console.log('[INFO] initialising chat room creation--> ' + newRoom.chatRoom);
+        if(newRoom.chatRoom);
+    }
+})
+
+
 router.get('/memeSearch', function (req, res) {
     console.log('[INFO] initiating meme search');
     var options;
     var resArray = [];
     if (req.query.q && req.query.q.match(config.searchQueryRegex).length == 1)
         options = {
-            url: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=' + req.query.q + '%20meme&aspect=square',
+            url: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=' + req.query.q + '%20meme&aspect=square&imageType=Clipart&color=Monochrome&count=8',
             method: 'GET',
             headers: { 'Ocp-Apim-Subscription-Key': config.ImageAPIKey }
         };
@@ -33,8 +43,9 @@ router.get('/memeSearch', function (req, res) {
             //will only give out 5 images. or 10 maybe?
             if(!err && response.statusCode == 200){
                 var result = JSON.parse(response.body).value;
-                for(i =0 ; i<5; i++)
-                    resArray.push(result[i].thumbnailUrl);
+                result.forEach(function(element) {
+                    resArray.push(element.thumbnailUrl);
+                });
                 res.json({success:true, data: resArray});
                 console.log('[INFO] MEMEs sent to the client.');
             }
@@ -120,8 +131,8 @@ router.post('/authoriseChatAccess', function (req, res) {
         chatRoom = chatRoom.toLowerCase();
         adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
             if (chatRoomObject && !(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
-                if (!err && chatRoomObject._doc.accessType == 'public') {
-                    var chatRooms = serviceHelper.addChatRoom(token, chatRoom, userName);
+                if (!(err || chatRoomObject._doc.private)) {
+                    var chatRooms = serviceHelper.addChatRoomForToken(token, chatRoom, userName);
                     token = jwt.sign({ allowedRooms: chatRooms }, config.secretKey, { expiresIn: 1440 * 60 });
                     res.json({ success: true, token: token });
                 }
