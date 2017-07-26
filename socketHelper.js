@@ -6,6 +6,7 @@ var initialiseChatRooms = function () {
     adapter.getChatRooms(function (err, chatRoomsDB){
         if(!err)
             chatRoomsDB.forEach(function (room) {
+                room = room._doc;
                 chatRooms.push({ chatRoom: room.chatRoom, messages: [], showPrevious: room.showPrevious });
             }, this);
     });
