@@ -5,6 +5,7 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
     var primaryIndex;
     $scope.userName = $rootScope.getNameForChat(chatRoom);
     $scope.imageResult = [];
+    $scope.memeShow = false;
 
 
     //var socketPrimary = io({ 'chatRoom': chatRoom, query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + chatRoom, forceNew: true });
@@ -39,7 +40,23 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
             sidebar.style.display = 'none';
     }
 
-    $scope.send = function () {
+    $scope.toggleMemeSearch = function(){
+        var memeDiv = document.getElementById('memeDiv');
+        if(memeDiv.style.display == 'none')
+            memeDiv.style.display = '';
+        else
+            memeDiv.style.display = 'none';
+    }
+
+
+
+    $scope.sendImage = function(imagePath) {
+        $scope.currentMessage = imagePath;
+        $scope.send(true);
+        $scope.hideMemeSearch();
+    }
+
+    $scope.send = function (imageBoolean) {
         if ($scope.currentMessage) {
             var msg = {
                 image: imageBoolean,
