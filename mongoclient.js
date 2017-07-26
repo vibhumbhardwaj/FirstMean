@@ -53,8 +53,24 @@ mongomodel.User.findByIdAndUpdate(newUser._id, newUser, function(err, book){
     //getBooks();
 })
 */
+newRoom = {
+    chatRoom : "test1",
+    password : "blabla",
+    accessType : "public",
+    allowedUsers : [],
+    showPrevious : true,
+    currentUsers : [],
+    messages : []
+}
 
-
+var createChatRoom = function(chatRoom, bc){
+    mongomodel.ChatRoom.create(newRoom, function(err, res){
+        if(!err) console.log(res);
+        else console.log(err);
+    })
+}
+createChatRoom();
+/*
 newBook.save(function(err){
     console.log("start");
     if(err) console.error('shit happens.');

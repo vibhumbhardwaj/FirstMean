@@ -35,6 +35,12 @@ var getChatRooms = function(bc) {
     })
 }
 
+var createChatRoom = function(chatRoom, bc){
+    model.ChatRoom.create(newRoom, function(err, createdRoom){
+        bc(err,createdRoom);
+    })
+}
+
 var findChatRoom = function (findthis, bc) {
     model.ChatRoom.findOne(findthis, function (err, chatRoom){
         bc(err, chatRoom);
@@ -86,5 +92,6 @@ module.exports = {
     saveToDB: saveToDB,
     getAllUsers: getAllUsers,
     findChatRoom: findChatRoom,
-    getChatRooms: getChatRooms
+    getChatRooms: getChatRooms,
+    createChatRoom: createChatRoom
 }
