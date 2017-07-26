@@ -52,7 +52,7 @@ var schemaForBooks = new Schema({
 var schemaForChatRooms = new Schema({
     chatRoom: {type: String, unique: true},
     password: String,
-    accessType: String,
+    private: Boolean,
     allowedUsers: [inlineUserSchema],
     showPrevious: Boolean,
     currentUsers: [],

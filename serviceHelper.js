@@ -16,7 +16,7 @@ var parseJwt = function (token) {
     return JSON.parse(atob(base64));
 };
 
-var addChatRoom = function (token, chatRoom, userName) {
+var addChatRoomForToken = function (token, chatRoom, userName) {
     var chatRooms;
     if (token)
         chatRooms = parseJwt(token).allowedRooms;
@@ -36,8 +36,7 @@ var addChatRoom = function (token, chatRoom, userName) {
 }
 
 var isChatAllowed = function (user, chatRoom, password) {
-    var accessType = chatRoom.accessType;
-    if (accessType == 'private') {
+    if (chatRoom.private){ 
         userPresent = chatRoom.allowedUsers.findIndex(function (ele) {
             return user._id == ele.userId;
         });
@@ -173,7 +172,7 @@ module.exports = {
     getUserAfterReturn: getUserAfterReturn,
     getIssueStatusForBooks: getIssueStatusForBooks,
     isChatAllowed: isChatAllowed,
-    addChatRoom: addChatRoom,
+    addChatRoomForToken: addChatRoomForToken,
     parseJwt: parseJwt,
     sendUnAuthorisedResponse: sendUnAuthorisedResponse
 }
