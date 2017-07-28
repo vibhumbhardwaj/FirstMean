@@ -2,8 +2,8 @@
 
 <head>
     <style>
-        #memediv{
-            box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)
+        #memediv {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
         }
     </style>
 
@@ -39,7 +39,7 @@
                 {{room.chatRoom}} <b>{{room.count}}</b>
             </li>
         </ul>
-        
+
     </div>
 
 
@@ -56,19 +56,21 @@
             <!-- <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br> -->
         </form>
         <br>
-        <div class="w3-btn" ng-click="toggleMemeSearch()" id="memeButton" style="z-index: 1; position: absolute; right: 2; background: #475E47; color: white" >More than a :)</div>
-        <div id="memeDiv"  class="w3-animate-right w3-btn" style=" z-index: 2; position: absolute; width: 250px; right: 2; overflow: auto; height: calc(100% - 200px); display: none; background: white">
+        <div class="w3-btn" ng-click="toggleMemeSearch()" id="memeButton" style="z-index: 1; position: absolute; right: 2; background: #475E47; color: white">More than a :)</div>
+        <div id="memeDiv" class="w3-animate-right w3-btn" style=" z-index: 2; position: absolute; width: 250px; right: 2; overflow: auto; height: calc(100% - 200px); display: none; background: white">
             <div style="z-index:3; background: white; width: 100%">
-             <span class="w3-btn w3-right" ng-click="toggleMemeSearch()"  ><b>X</b></span> 
-            <form ng-submit="memeSearch()">
-                <input type="text" ng-model="memeInput" class="w3-input" placeholder="Search Meme">
-            </form>
+                <span class="w3-btn w3-right" ng-click="toggleMemeSearch()"><b>X</b></span>
+                <form ng-submit="memeSearch()">
+                    <input type="text" ng-model="memeInput" class="w3-input" placeholder="Search Meme">
+                </form>
             </div>
-            <ul class="w3-ul w3-hoverable w3-btn" style="z-index: 2;">
-                <li ng-repeat="image in imageResult">
-                    <img ng-src="{{image}}" ng-click="sendImage(image)" height="150px">
-                </li>
-            </ul>
+            <div id="memes">
+                <ul class="w3-ul w3-hoverable w3-btn" style="z-index: 2;">
+                    <li ng-repeat="image in imageResult">
+                        <img ng-src="{{image}}" ng-click="sendImage(image)" height="150px">
+                    </li>
+                </ul>
+            </div>
         </div>
         <div ng-repeat="msg in messages | orderBy:'+':true track by $index">
 

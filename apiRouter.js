@@ -72,7 +72,7 @@ router.get('/memeSearch', function (req, res) {
                 console.log('[INFO] MEMEs sent to the client.');
             }
             else{
-                console.log('[ERROR] trace- ' + err  + '\nStatus code: ' + response.statusCode);
+                console.log('[ERROR] trace- ' + err );
                 res.json({success: false, message: 'Couldn\'t find images. Sorry.'});
             }
         });

@@ -117,11 +117,11 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
                 $scope.imageResult = res.data.data;
             else{
                 $scope.imageResult = [];
-                document.getElementById('memeDiv').innerHTML = '<h1>Uh. Oh.</h1>' + res.data.message;    
+                document.getElementById('memes').innerHTML = '<h1>Uh. Oh.</h1>' + res.data.message;    
             }
         }, function failure(err) {
             $scope.imageResult = [];
-            document.getElementById('memeDiv').innerHTML = '<h1>Uh. Oh.</h1>Something Really bad happened at the backend. I\'m sorry';
+            document.getElementById('memes').innerHTML = '<h1>Uh. Oh.</h1>Something Really bad happened at the backend. I\'m sorry';
         })
     }
 
