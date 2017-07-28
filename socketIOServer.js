@@ -5,6 +5,30 @@ var socketHelper = require('./socketHelper.js');
 var chatRooms = socketHelper.initialiseChatRooms();
 module.exports = function (server) {
     var io = require('socket.io')(server);
+    var authIO = io.of('chatAuthorisation');
+
+    authIO.on('connection', function(socket) {
+
+        authIO.on('new room', function(chatRoom){ 
+            // Chatroom is just its name. right? And not the whole object!!
+            socketHelper.getChatRoom(chatRoom, function(err, room){
+                if(!err && room){
+                    chatRoom = room._doc;
+                    var index = socketHelper.getRoomIndex(chatRooms, chatRoom);
+                    if(index < 0){
+                        chatRooms.push(chatRoom);
+                        socket.emit('room added');
+                    }
+                    else{
+                        socket.emit('unauthorised', 'Done already!! Have some chill.');
+                    }
+                }
+                else{
+                    socket.emit('unauthorised', 'Something\'s not right.');
+                }
+            })
+        })
+    })
 
     io.use(socketAuth.authenticate({
         secret: config.secretKey,
