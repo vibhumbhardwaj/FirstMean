@@ -1,5 +1,5 @@
 var mongomodel = require('./mongomodel.js');
-
+var sha2 = require('crypto-js');
 
 var message = {
     message: 'Hi Everyone',
@@ -16,7 +16,10 @@ var newBook = new mongomodel.Book({
     points: 0,
 });
 
+console.log('HELLO');
 
+console.log(sha2.HmacSHA256('HELLO','DONOTCHANGETHIS___476382____NOHANDLINGDONE__#&$*#&$(____OTHERWISE').toString());
+console.log(sha2.HmacSHA256('HELLO','DONOTCHANGETHISNOHANDLINGDONEOTHERWISE').toString());
 
 var someUser = {
     _id:'595decc2f2d4b459686fa660',
@@ -62,7 +65,7 @@ newRoom = {
     currentUsers : [],
     messages : []
 }
-
+/*
 var createChatRoom = function(chatRoom, bc){
     mongomodel.ChatRoom.create(newRoom, function(err, res){
         if(!err) console.log(res);
