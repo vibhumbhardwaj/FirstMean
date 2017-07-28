@@ -38,7 +38,7 @@ router.get('/',function(req,res){
     res.render('login.html');
 });
 
-server.listen(8080, function(){
+server.listen(80, function(){
     console.log('STARTED>');
 });
 
