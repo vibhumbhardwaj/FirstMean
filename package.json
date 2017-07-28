@@ -22,6 +22,7 @@
     "socket.io": "latest",
     "atob": "latest",
     "socketio-jwt-auth": "latest",
-    "request": "2.81.0"
+    "request": "2.81.0",
+    "crypto-js": "3.1.9-1"
   }
 }

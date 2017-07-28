@@ -5,6 +5,7 @@ var adapter = require('./mongoadapter');
 var config = require('./config.js');
 var serviceHelper = require('./serviceHelper.js');
 var request = require('request');
+var crypto = require('crypto-js');
 
 var findthis = {};
 
@@ -22,6 +23,8 @@ router.post('/createRoom', function(req, res){
         var private = newRoom.private;
         console.log('[INFO] initialising chat room creation--> ' + newRoom.chatRoom);
         if(newRoom.chatRoom && (newRoom.password || private)){
+            if(newRoom.password) // hashing the password.
+                newRoom.password = crypto.SHA256(newRoom.password);
             if(!newRoom.showPrevious){
                 newRoom.showPrevious = false;
                 console.log('[INFO] Setting show Previous messages to default value of false because none was provided.');
@@ -151,6 +154,7 @@ router.post('/authoriseChatAccess', function (req, res) {
     //hashing the password goes here.
     if (chatRoom && password || chatRoom == 'public' && userName) {
         chatRoom = chatRoom.toLowerCase();
+        password = crypto.SHA256(password);
         adapter.findChatRoom({ chatRoom: chatRoom }, function (err, chatRoomObject) {
             if (chatRoomObject && !(chatRoomObject._doc.password && chatRoomObject._doc.password != password)) {
                 if (!(err || chatRoomObject._doc.private)) {
