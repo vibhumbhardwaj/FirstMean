@@ -26,11 +26,14 @@
     <div class="w3-main w3-content w3-padding vb-main" >
         
         <form ng-submit="getChatToken()">
-        <div><h1>Chat Room</h1></div><div ng-show="invalid" style="color: red"><h5>{{errorMessage}}</h5></div>
-        <input type="text" ng-model="chatRoom" class="w3-input" placeholder="Enter chat room's name here."><br>
-        <input type="checkbox" class="w3-check" ng-model="private"> My Chat room is SSO enabled. [Requires user registration]
-
+        <div><h1>Login to Chat Room</h1></div><div ng-show="invalid" style="color: red"><h5>{{errorMessage}}</h5></div>
+        <span class="w3-tiny">Username</span>
         <input type="text" class="w3-input" ng-model="userName" ng-disabled="private" ng-class="{'w3-disabled': private}" placeholder="Your Username for session">
+        <input type="checkbox" class="w3-check" ng-model="private"> My Chat room is SSO enabled. [Requires user registration]
+        <br><br>
+        <span class="w3-tiny">Room's Name</span>
+        <input type="text" ng-model="chatRoom" class="w3-input" placeholder="Enter your chat room's name here."><br>
+        <span class="w3-tiny">Room Password</span>
         <input type="password" ng-model="password"   class="w3-input" ng-class="{'w3-disabled': (private && !passwordRequired)}"
             ng-disabled="(private && !passwordRequired)" placeholder="Then the password assigned to the chat room.">
         <div ng-show="private"> <input type="checkbox" class="w3-check" ng-model="passwordRequired"> But it still requires another password
