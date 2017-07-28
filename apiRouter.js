@@ -65,7 +65,6 @@ router.get('/memeSearch', function (req, res) {
     }    
     if(options)
         request(options, function(err, response){
-            //will only give out 5 images. or 10 maybe?
             if(!err && response.statusCode == 200){
                 var result = JSON.parse(response.body).value;
                 result.forEach(function(element) {

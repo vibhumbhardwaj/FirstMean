@@ -1,5 +1,6 @@
 var mongomodel = require('./mongomodel.js');
 var sha2 = require('crypto-js');
+var adapter = require('./mongoadapter.js');
 
 var message = {
     message: 'Hi Everyone',
@@ -65,6 +66,17 @@ newRoom = {
     currentUsers : [],
     messages : []
 }
+getroom = function(bc){
+    adapter.findChatRoom({chatRoom: 'hahahha'}, function(err, chatRoom){
+        if(!err) bc(chatRoom);
+        else bc('offo');
+    });
+}
+getroom(function(room){
+    console.log(room);
+})
+
+
 /*
 var createChatRoom = function(chatRoom, bc){
     mongomodel.ChatRoom.create(newRoom, function(err, res){
