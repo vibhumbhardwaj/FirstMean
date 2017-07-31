@@ -5,12 +5,24 @@ var socketHelper = require('./socketHelper.js');
 var chatRooms = socketHelper.initialiseChatRooms();
 module.exports = function (server) {
     var io = require('socket.io')(server);
+    var chatIO = io.of('chat');
     var authIO = io.of('chatAuthorisation');
 
     authIO.on('connection', function(socket) {
 
-        authIO.on('new room', function(chatRoom){ 
-            // Chatroom is just its name. right? And not the whole object!!
+        socket.on('findAvailability', function(chatRoom){
+            console.log('[INFO] finding availability of room --> ' + chatRoom);
+            var index = chatRooms.findIndex(function(ele){
+                return ele.chatRoom == chatRoom;
+            });
+            if(index < 0 )
+                socket.emit('availabilityResult', true);
+            else
+                socket.emit('availabilityResult', false);
+        })
+
+        socket.on('new room', function(chatRoom){ 
+            console.log('[INFO] Chatroom is just its name. right? And not the whole object --> ' + chatRoom);
             socketHelper.getChatRoom(chatRoom, function(err, room){
                 if(!err && room){
                     chatRoom = room._doc;
@@ -30,16 +42,16 @@ module.exports = function (server) {
             })
         });
 
-        authIO.on('getAllRooms', function(){
+        socket.on('getAllRooms', function(){
+            console.log('[INFO] getting chatroom\'s list...');
             socket.emit('roomsList', socketHelper.getChatRoomList(chatRooms));
         })
     })
 
-    io.use(socketAuth.authenticate({
+    chatIO.use(socketAuth.authenticate({
         secret: config.secretKey,
         algorithm: 'HS256'
     }, function (payload, done) {
-        console.log(payload.allowedRooms[0].chatRoom);
         done(null, payload.allowedRooms);
     }));
 
@@ -48,8 +60,8 @@ module.exports = function (server) {
             next(null, true);
         })*/
 
-    io.on('connection', function (socket) {
-
+    chatIO.on('connection', function (socket) {
+        
         var chatRoom = socket.handshake.query['chatRoom'];
         var allowedRooms = socket.request.user;
         var globalRoomIndex, userName;

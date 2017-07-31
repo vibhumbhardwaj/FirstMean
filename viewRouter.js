@@ -44,4 +44,8 @@ router.get('/chat/:chatRoom', function(req,res){
     res.render('chat.html');
 });
 
+router.get('/createRoom', function(req, res){
+    res.render('newChatRoom.html');
+})
+
 module.exports = router;

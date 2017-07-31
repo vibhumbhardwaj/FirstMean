@@ -17,7 +17,7 @@ app.controller('chatController', function ($rootScope, $scope, $window) {
     $scope.allowedRooms.forEach(function (room, index) {
         if (room.chatRoom == chatRoom)
             primaryIndex = index;
-        socketArray.push({ index: index, chatRoom: room.chatRoom, socket: io({ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + room.chatRoom, forceNew: true }) });
+        socketArray.push({ index: index, chatRoom: room.chatRoom, socket: io('/chat',{ query: "auth_token=" + window.localStorage.chatToken + "&chatRoom=" + room.chatRoom, forceNew: true }) });
     });
 
     socketArray.forEach(function (socketObject) {

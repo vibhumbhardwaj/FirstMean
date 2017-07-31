@@ -3,14 +3,14 @@ app.controller('chatLoginController', function ($rootScope, $scope) {
     var publicRoom = false;
     $scope.chatRooms = [];
     
-    var socket = io('chatAuthorisation');
+    var socket = io('/chatAuthorisation');
 
     $scope.updateList = function(){
-        socket.emit('getAllRooms');
+        socket.emit('getAllRooms', null);
     }
     $scope.updateList();
 
-    socket.on('roomList', function(rooms){
+    socket.on('roomsList', function(rooms){
         chatRooms = rooms;
     })
 
