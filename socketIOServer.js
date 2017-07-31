@@ -24,9 +24,14 @@ module.exports = function (server) {
                     }
                 }
                 else{
+                    console.error('[ERROR] Inconsistency with Database found. Chatroom not added to database successfully.');
                     socket.emit('unauthorised', 'Something\'s not right.');
                 }
             })
+        });
+
+        authIO.on('getAllRooms', function(){
+            socket.emit('roomsList', socketHelper.getChatRoomList(chatRooms));
         })
     })
 

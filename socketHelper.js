@@ -1,7 +1,7 @@
 var adapter = require('./mongoadapter.js');
 var serviceHelper = require('./serviceHelper.js');
 
-var sendRoomNames = function(chatRooms){
+var getChatRoomList = function(chatRooms){
     var roomNames = [];
     chatRooms.forEach(function(room){
         roomNames.push({chatRoom: room.chatRoom, private: room.private});
@@ -15,7 +15,7 @@ var initialiseChatRooms = function () {
         if(!err)
             chatRoomsDB.forEach(function (room) {
                 room = room._doc;
-                chatRooms.push({ chatRoom: room.chatRoom, messages: [], showPrevious: room.showPrevious });
+                chatRooms.push({ chatRoom: room.chatRoom, messages: [], showPrevious: room.showPrevious, private: room.private });
             }, this);
     });
 
@@ -55,5 +55,5 @@ module.exports = {
     getChatRoom: getChatRoom,
     getRoomIndex: getRoomIndex,
     isAllowed: isAllowed,
-    sendRoomNames: sendRoomNames
+    getChatRoomList: getChatRoomList
 }
