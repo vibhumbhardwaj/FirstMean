@@ -1,7 +1,18 @@
 app.controller('chatLoginController', function ($rootScope, $scope) {
     $scope.private = false;
     var publicRoom = false;
+    $scope.chatRooms = [];
+    
+    var socket = io('chatAuthorisation');
 
+    $scope.updateList = function(){
+        socket.emit('getAllRooms');
+    }
+    $scope.updateList();
+
+    socket.on('roomList', function(rooms){
+        chatRooms = rooms;
+    })
 
     $scope.gotoPublic = function(){
         if(!$scope.userName)
