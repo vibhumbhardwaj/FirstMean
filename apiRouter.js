@@ -18,7 +18,7 @@ router.use(function (req, res, next) {
 
 router.post('/createRoom', function(req, res){
     
-    var newRoom = req.body.chatRoom;
+    var newRoom = req.body;
     if(newRoom){
         var private = newRoom.private;
         console.log('[INFO] initialising chat room creation--> ' + newRoom.chatRoom);
