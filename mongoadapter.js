@@ -36,7 +36,7 @@ var getChatRooms = function(bc) {
 }
 
 var createChatRoom = function(chatRoom, bc){
-    model.ChatRoom.create(newRoom, function(err, createdRoom){
+    model.ChatRoom.create(chatRoom, function(err, createdRoom){
         bc(err,createdRoom);
     })
 }
