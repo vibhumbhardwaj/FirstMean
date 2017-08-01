@@ -35,7 +35,7 @@
 
     <div id="chatSideBar" class="w3-animate-right" style="z-index: 1;position: fixed; display: block; height: calc(100% - 40px);right: 0 ">
         <b>Active Rooms </b><br>
-        <ul class="w3-ul w3-hoverable w3-btn" style="width: 100%">
+        <ul class="w3-ul w3-hoverable w3-btn vb-btn" style="width: 100%">
             <li ng-repeat="room in allowedRooms">
                 {{room.chatRoom}} <b>{{room.count}}</b>
             </li>
@@ -54,7 +54,7 @@
             <h3>{{userName}}</h3>
             <input type="text" autocomplete="off" class="w3-input" ng-model="currentMessage" placeholder="Type in your message here."></textarea>
 
-            <!-- <span class="w3-btn w3-right" ng-click="send()"><b>Send</b></span><br> -->
+            <!-- <span class="w3-btn w3-right vb-btn" ng-click="send()"><b>Send</b></span><br> -->
         </form>
         <br>
         <div class="w3-btn" ng-click="toggleMemeSearch()" id="memeButton" style="z-index: 1; position: absolute; right: 2; background: #475E47; color: white">More than a :)</div>

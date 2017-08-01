@@ -26,7 +26,7 @@
 
     <div class="w3-main w3-content w3-padding vb-main">
 
-        <form ng-submit="validateAndContinue()" name="form1">
+        <form ng-submit="validateAndContinue(form1)" name="form1">
             <div>
                 <h1>Create new Chat-Room</h1>
             </div>
@@ -45,7 +45,7 @@
                     <span ng-show="private"><br><input type="checkbox" class="w3-check" ng-model="passwordRequired"> Even if the room's SSO enabled, my chat room would still require a password to login</span>
                     <div ng-if="called">
                         <span ng-if="available"> Chatroom's name available. Carry on.</span>
-                        <span ng-if="!available"> M sorry. I really am. Name already taken.</span>
+                        <span ng-if="!available" > M sorry. I really am. Name already taken.</span>
                     </div>
                     <br><br>
                 </div>
@@ -56,7 +56,7 @@
                     <br><br>
 
                     <span class="w3-tiny">Can you repeat that again? It's a basic etiquette</span>
-                    <input type="password" autocomplete="off" class="w3-input" name="password" ng-model="password" placeholder="Confirm">
+                    <input type="password" autocomplete="off" class="w3-input" name="password" ng-model="confirmPassword" placeholder="Confirm" ng-blur="isConfirmed()">
                     <br><br>
                 </div>
 
@@ -64,7 +64,11 @@
                     <span class="w3-tiny">Other Options</span><br>
                     <input type="checkbox" class="w3-check" ng-model="showPrevious"> New connections to the room should be able to see previous messages.<br>
                     <span ng-show="!showPrevious" class="w3-small"><br><b>N.B.</b> <i>Window Refreshes are also treated as new connection. I thought you should know.</i><br></span>                  
+                    <br><br>
                 </div>
+            <div id="submitDiv">
+                <input type="submit" class="w3-btn vb-btn" value="Submit Request" />
+            </div>
             </div>
         </form>
 

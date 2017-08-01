@@ -8,41 +8,43 @@ module.exports = function (server) {
     var chatIO = io.of('chat');
     var authIO = io.of('chatAuthorisation');
 
-    authIO.on('connection', function(socket) {
+    authIO.on('connection', function (socket) {
 
-        socket.on('findAvailability', function(chatRoom){
+        socket.on('findAvailability', function (chatRoom) {
             console.log('[INFO] finding availability of room --> ' + chatRoom);
-            var index = chatRooms.findIndex(function(ele){
-                return ele.chatRoom == chatRoom;
-            });
-            if(index < 0 )
+            var index;
+            if (chatRoom.match(config.alphaNumericRegex).length == 1)
+                index = chatRooms.findIndex(function (ele) {
+                    return ele.chatRoom == chatRoom;
+                });
+            if (index < 0)
                 socket.emit('availabilityResult', true);
             else
                 socket.emit('availabilityResult', false);
         })
 
-        socket.on('new room', function(chatRoom){ 
+        socket.on('new room', function (chatRoom) {
             console.log('[INFO] Chatroom is just its name. right? And not the whole object --> ' + chatRoom);
-            socketHelper.getChatRoom(chatRoom, function(err, room){
-                if(!err && room){
+            socketHelper.getChatRoom(chatRoom, function (err, room) {
+                if (!err && room) {
                     chatRoom = room._doc;
                     var index = socketHelper.getRoomIndex(chatRooms, chatRoom);
-                    if(index < 0){
+                    if (index < 0) {
                         chatRooms.push(chatRoom);
                         socket.emit('room added');
                     }
-                    else{
+                    else {
                         socket.emit('unauthorised', 'Done already!! Have some chill.');
                     }
                 }
-                else{
+                else {
                     console.error('[ERROR] Inconsistency with Database found. Chatroom not added to database successfully.');
                     socket.emit('unauthorised', 'Something\'s not right.');
                 }
             })
         });
 
-        socket.on('getAllRooms', function(){
+        socket.on('getAllRooms', function () {
             console.log('[INFO] getting chatroom\'s list...');
             socket.emit('roomsList', socketHelper.getChatRoomList(chatRooms));
         })
@@ -61,14 +63,14 @@ module.exports = function (server) {
         })*/
 
     chatIO.on('connection', function (socket) {
-        
+
         var chatRoom = socket.handshake.query['chatRoom'];
         var allowedRooms = socket.request.user;
         var globalRoomIndex, userName;
-        var localRoomIndex = socketHelper.getRoomIndex(allowedRooms, chatRoom); 
+        var localRoomIndex = socketHelper.getRoomIndex(allowedRooms, chatRoom);
         // saving for later getting userName from secure channel 
 
-        if( localRoomIndex >= 0){
+        if (localRoomIndex >= 0) {
             globalRoomIndex = socketHelper.getRoomIndex(chatRooms, chatRoom);
             /*
             var allowedIndex = 
@@ -83,13 +85,13 @@ module.exports = function (server) {
             */
             userName = allowedRooms[localRoomIndex].userName;
             socket.join(chatRoom);
-            if(chatRooms[globalRoomIndex].showPrevious)
+            if (chatRooms[globalRoomIndex].showPrevious)
                 socket.emit('previousMessages', chatRooms[globalRoomIndex]);
 
         }
-        else{
+        else {
             console.log('catch me');
-            socket.emit('unauthorised', '<h1>Uh Oh. Wrong Room I suppose.</h1><br>N.B. You can always access public chat by clicking here: <a href="/site/chat" class="w3-button">here.</a>');
+            socket.emit('unauthorised', '<h1>Uh Oh. Wrong Room I suppose.</h1><br>N.B. You can always access public chat by clicking here: <a href="/site/chat" class="w3-button vb-btn">here.</a>');
             socket.disconnect(true);
         }
 
@@ -111,7 +113,7 @@ module.exports = function (server) {
                 var chatRoom = msg.chatRoom;
 
                 // log messages here.
-                console.log('................saving message supposedly........................\n'+ msg.userName +'@ '+ chatRoom + ' - ' + msg.message+'\n');
+                console.log('................saving message supposedly........................\n' + msg.userName + '@ ' + chatRoom + ' - ' + msg.message + '\n');
 
                 chatRooms[globalRoomIndex].messages.push(msg);
                 socket.broadcast.to(chatRoom).emit('newMessage', msg);

@@ -20,6 +20,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   margin-top: 40px !important ;
 }
 
+.vb-btn{
+  border: 1px solid #cccccc !important;
+}
+
 /* devanagari */
 @font-face {
   font-family: 'Karma';

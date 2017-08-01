@@ -35,17 +35,17 @@ router.post('/createRoom', function(req, res){
                         res.json({success: true});
                     }
                     else
-                        serviceHelper.sendUnAuthorisedResponse('Couldn\'t create a new chat room into the database. Most Probably, the name is already taken.');
+                        serviceHelper.sendUnAuthorisedResponse(res, 'Couldn\'t create a new chat room into the database. Most Probably, the name is already taken.');
                 });
             }
             else
-                serviceHelper.sendUnAuthorisedResponse();
+                serviceHelper.sendUnAuthorisedResponse(res);
         }
         else
-            serviceHelper.sendUnAuthorisedResponse();
+            serviceHelper.sendUnAuthorisedResponse(res);
     }
     else
-        serviceHelper.sendUnAuthorisedResponse('WTF Dude, at least send something!!');
+        serviceHelper.sendUnAuthorisedResponse(res, 'WTF Dude, least you can do is send data in a proper format.');
 });
 
 
