@@ -65,7 +65,7 @@ module.exports = function (server) {
 
     chatIO.on('connection', function (socket) {
 
-        var chatRoom = socket.handshake.query['chatRoom'];
+        var chatRoom = socket.handshake.query['chatRoom'].toLowerCase();
         var allowedRooms = socket.request.user;
         var globalRoomIndex, userName;
         var localRoomIndex = socketHelper.getRoomIndex(allowedRooms, chatRoom);
