@@ -25,6 +25,7 @@ module.exports = function (server) {
 
         socket.on('new room', function (chatRoom) {
             console.log('[INFO] Chatroom is just its name. right? And not the whole object --> ' + chatRoom);
+            chatRoom = chatRoom.toLowerCase();
             socketHelper.getChatRoom(chatRoom, function (err, room) {
                 if (!err && room) {
                     chatRoom = room._doc;

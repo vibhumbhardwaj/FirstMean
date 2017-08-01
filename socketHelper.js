@@ -37,7 +37,7 @@ var getRoomIndex = function(chatRooms, chatRoom){
 }
 
 var getChatRoom = function(chatRoom, bc) {
-    adapter.findChatRoom({chatRoom: chatRoom}, function(err, chatRoom){
+    adapter.findChatRoom({'chatRoom': chatRoom}, function(err, chatRoom){
         return bc(err, chatRoom);
     })
 }
