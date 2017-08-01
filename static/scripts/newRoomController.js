@@ -2,19 +2,15 @@ app.controller('newRoomController', function ($rootScope, $scope) {
 
     var socket = io('/chatAuthorisation');
     $scope.showPrevious = true;
-    var datatosend = {
-        chatRoom: $scope.chatRoom,
-        private: $scope.private,
-        showPrevious: $scope.showPrevious,
-        password: null
-    }
+    $scope.private = false;
+    var datatosend;
 
-    var handleException = function(msg){
-        if(!msg)
+    var handleException = function (msg) {
+        if (!msg)
             msg = 'Something Happened';
         $scope.invalid = true;
         $scope.errorMessage = msg;
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
 
     $scope.findAvailability = function () {
@@ -43,6 +39,12 @@ app.controller('newRoomController', function ($rootScope, $scope) {
             $scope.findAvailability();
             if ($scope.called && $scope.available) {
                 $scope.invalid = false;
+                datatosend = {
+                    chatRoom: $scope.chatRoom,
+                    private: $scope.private,
+                    showPrevious: $scope.showPrevious,
+                    password: null
+                }
                 if ($scope.private && !$scope.passwordRequired)
                     datatosend.password = null;
                 else if ($scope.isConfirmed())
@@ -69,21 +71,21 @@ app.controller('newRoomController', function ($rootScope, $scope) {
                         console.log('oh man!!');
                     })
             }
-            else{
-                
+            else {
+
             }
         }
-        else{
+        else {
             handleException('You\'re better than this dude. Please fill up the details correctly...');
         }
     }
 
-    socket.on('room added', function(){
+    socket.on('room added', function () {
         window.alert('Room Added successfully! Login to continue');
         window.open('/site/chat', '_self');
     });
 
-    socket.on('unauthorised', function(msg){
+    socket.on('unauthorised', function (msg) {
         handleException(msg);
     })
 
