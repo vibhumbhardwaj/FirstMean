@@ -17,7 +17,7 @@
 
 <body ng-app="booksApp" ng-controller="chatController">
 
-    <div class="w3-top vb-parent" style="z-index: 2; background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
+    <div class="w3-top vb-parent" style="z-index: 5; background: darkseagreen; display: block;  overflow: hidden; width: 100%; height: 38px">
         <div class="w3-left">
             <span class="w3-button" ng-click="visitChat()"><b>Join another Room</b></span>
             <span class="w3-button" ng-click="visitCreateRoom()">Create a new One instead</span>
@@ -58,7 +58,7 @@
         </form>
         <br>
         <div class="w3-btn" ng-click="toggleMemeSearch()" id="memeButton" style="z-index: 1; position: absolute; right: 2; background: #475E47; color: white">More than a :)</div>
-        <div id="memeDiv" class="w3-animate-right w3-btn" style=" z-index: 2; position: absolute; width: 250px; right: 2; overflow: auto; height: calc(100% - 200px); display: none; background: white">
+        <div id="memeDiv" class="w3-animate-right w3-btn" style=" z-index: 2; position: absolute; width: 250px; right: 2; overflow: auto; height: calc(100vh - 200px); display: none; background: white">
             <div style="z-index:3; background: white; width: 100%">
                 <span class="w3-btn w3-right" ng-click="toggleMemeSearch()"><b>X</b></span>
                 <form ng-submit="memeSearch()">
