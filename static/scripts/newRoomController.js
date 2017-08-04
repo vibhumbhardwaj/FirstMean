@@ -82,7 +82,7 @@ app.controller('newRoomController', function ($rootScope, $scope) {
 
     socket.on('room added', function () {
         window.alert('Room Added successfully! Login to continue');
-        window.open('/site/chat', '_self');
+        window.open('/site/collab', '_self');
     });
 
     socket.on('unauthorised', function (msg) {

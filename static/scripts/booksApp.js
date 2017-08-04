@@ -15,7 +15,7 @@ app.run(function ($rootScope, $http) {
     }
 
     $rootScope.visitChat = function(){
-        window.open('/site/chat', '_self');
+        window.open('/site/collab', '_self');
     }
 
     $rootScope.visitBooks = function(){

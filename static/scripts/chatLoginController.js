@@ -48,7 +48,7 @@ app.controller('chatLoginController', function ($rootScope, $scope) {
             }).then(function success(res) {
                 if (res.data.success) {
                     window.localStorage.chatToken = res.data.token;
-                    window.open('/site/chat/' + $scope.chatRoom.toLowerCase(), '_self');
+                    window.open('/site/collab/' + $scope.chatRoom.toLowerCase(), '_self');
                 }
                 else {
                     $scope.invalid = true;
