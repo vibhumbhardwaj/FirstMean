@@ -40,13 +40,8 @@ router.get('/',function(req,res){
     res.render('login.html');
 });
 
-server.listen(process.env.PORT || 8081, function(){
+server.listen(process.env.PORT || 80, function(){
     console.log('STARTED>');
 });
 
 
-/*
-var server = app.listen(80,function(){
-    console.log('[STARTUP] Web Server Up.');
-});
-*/
